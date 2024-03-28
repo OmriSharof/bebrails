@@ -60,3 +60,7 @@
 .close-btn:hover {
     background-color: #003366;
 }
+
+.station.highlight > div {
+    font-weight: bold; /* Bold the text for highlighted stations */
+}
