@@ -75,3 +75,8 @@ span {
 .prices-btn:hover {
     background-color: #003366; /* Darker shade on hover */
 }
+
+.train.selected {
+    outline: 2px solid #004a99; /* Blue outline for the selected train box */
+    z-index: 1; /* Make sure it's above other elements if needed */
+}
