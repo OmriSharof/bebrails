@@ -172,12 +172,13 @@ function SearchField({ label, onSelect, onBack }) {
   return (
     <div className="flex justify-center items-center">
       <div>
-        <Button variant="outlined" onClick={onBack}>
+        <Button variant="outlined" onClick={onBack} style={{ zIndex: 100 }}>
           Back
         </Button>
       </div>
       <Autocomplete
         sx={{
+          zIndex: 100,
           width: 500,
           bgcolor: "background.paper",
           color: (theme) =>
