@@ -4,6 +4,9 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import Trainpic from "./components/Trainpic";
+
+
 
 const stations = [
   { label: "Tel Aviv Savidor Center", id: 3700 },
@@ -87,6 +90,10 @@ function App() {
     setDest(city);
   };
 
+  const handleBack = () => {
+    setStep(step - 1);
+  }
+
   async function FindRoute() {
     try {
       const response = await axios.get("http://44.204.86.203:5000/run-script", {
@@ -101,16 +108,17 @@ function App() {
     }
   }
 
+  
   return (
     <div>
       <Navbar />
       {step === 0 && <GetStarted onClick={handleGetStarted} />}
       {step === 1 && (
-        <SearchField label="Source" onSelect={handleSourceSelect} />
+        <SearchField label="Source" onSelect={handleSourceSelect} onBack={handleBack} />
       )}
       {step === 2 && (
         <div>
-          <SearchField label="Destination" onSelect={handleDestinationSelect} />
+          <SearchField label="Destination" onSelect={handleDestinationSelect} onBack={handleBack} />
           <div className="p-3 flex justify-center items-center">
             <Button variant="contained" onClick={FindRoute}>
               Find Route
@@ -118,6 +126,7 @@ function App() {
           </div>
         </div>
       )}
+      <Trainpic />
     </div>
   );
 }
@@ -135,7 +144,7 @@ function GetStarted({ onClick }) {
       </div>
 
       <div className="text-center p-5">
-        <div className="p-3 ">
+        <div className="p-3">
           <Button variant="contained" onClick={onClick}>
             Get Started
           </Button>
@@ -145,9 +154,14 @@ function GetStarted({ onClick }) {
   );
 }
 
-function SearchField({ label, onSelect }) {
+function SearchField({ label, onSelect, onBack }) {
   return (
     <div className="flex justify-center items-center">
+      <div> 
+        <Button variant="outlined" onClick={onBack}> 
+        Back
+        </Button>
+      </div>
       <Autocomplete
         sx={{
           width: 500,
