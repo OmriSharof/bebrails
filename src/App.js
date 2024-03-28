@@ -9,6 +9,7 @@ import Search from "./components/Seach";
 import Results from "./components/Results";
 
 import TrainSchedule from "./components/TrainSchedule";
+import trainScheduleData from './train.json';
 function App() {
 
 
@@ -16,6 +17,9 @@ function App() {
     <div>
       <Navbar />
       <Search/>
+
+      <TrainSchedule scheduleData={trainScheduleData.result} />
+      <Trainpic />
     </div>
   );
 }
