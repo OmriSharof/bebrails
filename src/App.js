@@ -17,7 +17,6 @@ function App() {
     <div>
       <Navbar />
       <Search/>
-
       <TrainSchedule scheduleData={trainScheduleData.result} />
       <Trainpic />
     </div>

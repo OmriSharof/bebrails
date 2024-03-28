@@ -88,7 +88,7 @@ function Search() {
 
   const handleBack = () => {
     setStep(step - 1);
-  }
+  };
 
   async function FindRoute() {
     try {
@@ -103,16 +103,24 @@ function Search() {
       console.error("Error fetching route:", error);
     }
   }
-  
+
   return (
     <div>
-{step === 0 && <GetStarted onClick={handleGetStarted} />}
+      {step === 0 && <GetStarted onClick={handleGetStarted} />}
       {step === 1 && (
-        <SearchField label="Source" onSelect={handleSourceSelect} onBack={handleBack} />
+        <SearchField
+          label="Source"
+          onSelect={handleSourceSelect}
+          onBack={handleBack}
+        />
       )}
       {step === 2 && (
         <div>
-          <SearchField label="Destination" onSelect={handleDestinationSelect} onBack={handleBack} />
+          <SearchField
+            label="Destination"
+            onSelect={handleDestinationSelect}
+            onBack={handleBack}
+          />
           <div className="p-3 flex justify-center items-center">
             <Button variant="contained" onClick={FindRoute}>
               Find Route
@@ -126,49 +134,51 @@ function Search() {
 
 function GetStarted({ onClick }) {
   return (
-    <div className="min-h-screen flex items-center justify-center"
-    style={{
-      // Linear gradient background
-      background: "linear-gradient(135deg, #2C3E50 0%, #4A586E 50%, #00df9a 100%)"
-    }}>
- {/* Main content container */}
- <div className="text-white max-w-lg text-center rounded-lg p-10 shadow-xl"
+    <div
+      className="hero min-h-screen flex flex-col justify-center items-center text-center p-4"
       style={{
-        // Use a semi-transparent backdrop to ensure text readability over the gradient
-        backgroundColor: "rgba(31, 38, 49, 0.85)"
-      }}>
-   <h1 className="text-4xl font-bold mb-6">
-      All Aboard the Fun Express!
-   </h1>
-   <p className="mb-6">
-     Choo-choose us for a jolly ride to your destination! Where tracks lead, adventure follows! 🚂
-   </p>
-   <Button 
-     variant="contained" 
-     onClick={onClick}
-     style={{ backgroundColor: "#00df9a", color: "#fff" }} // Accent color for the button
-   >
-     Plan your journey
-   </Button>
- </div>
-</div>
+        background:
+          "linear-gradient(to right, #121212, #121212 85%, #00df9a 100%)",
+      }}
+    >
+      <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+        Ready for an Adventure?
+      </h1>
+      <p className="text-xl md:text-2xl text-gray-300 mb-8">
+        With BebRails, find the perfect route and enjoy the journey.
+      </p>
+      <Button
+        variant="contained"
+        onClick={onClick}
+        style={{
+          backgroundColor: "#00df9a", // Your accent color
+          color: "white",
+          fontWeight: "bold",
+          padding: "1rem 2rem",
+          borderRadius: "0.5rem",
+          boxShadow: "0 3px 5px 2px rgba(0, 0, 0, 0.2)",
+          "&:hover": {
+            backgroundColor: "#ffffff", // A darker shade for the hover state
+          },
+        }}
+      >
+        Plan your journey
+      </Button>
+    </div>
   );
 }
 
-
-
-
-
 function SearchField({ label, onSelect, onBack }) {
   return (
-    <div className="flex justify-center items-center" >
-      <div> 
-        <Button variant="outlined" onClick={onBack}> 
-        Back
+    <div className="flex justify-center items-center">
+      <div>
+        <Button variant="outlined" onClick={onBack} style={{ zIndex: 100 }}>
+          Back
         </Button>
       </div>
       <Autocomplete
         sx={{
+          zIndex: 100,
           width: 500,
           bgcolor: "background.paper",
           color: (theme) =>
@@ -190,5 +200,3 @@ function SearchField({ label, onSelect, onBack }) {
 
 export default Search;
 export { stations };
-
-
