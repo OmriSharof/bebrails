@@ -107,8 +107,7 @@ function Search() {
   
   return (
     <div>
-
-      {step === 0 && <GetStarted onClick={handleGetStarted} />}
+{step === 0 && <GetStarted onClick={handleGetStarted} />}
       {step === 1 && (
         <SearchField label="Source" onSelect={handleSourceSelect} onBack={handleBack} />
       )}
@@ -122,7 +121,6 @@ function Search() {
           </div>
         </div>
       )}
-
     </div>
   );
 }
