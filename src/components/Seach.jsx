@@ -127,30 +127,42 @@ function Search() {
 
 function GetStarted({ onClick }) {
   return (
-    <div className="text-red-50">
-      <div>
-        <h1 className="text-center font-bold text-4xl p-6">
-          Together We Will Triumph
-        </h1>
-        <p className="text-center">
-          Fast and flexible for you to reach everywhere
-        </p>
-      </div>
-
-      <div className="text-center p-5">
-        <div className="p-3">
-          <Button variant="contained" onClick={onClick}>
-            Get Started
-          </Button>
-        </div>
-      </div>
-    </div>
+    <div className="min-h-screen flex items-center justify-center"
+    style={{
+      // Linear gradient background
+      background: "linear-gradient(135deg, #2C3E50 0%, #4A586E 50%, #00df9a 100%)"
+    }}>
+ {/* Main content container */}
+ <div className="text-white max-w-lg text-center rounded-lg p-10 shadow-xl"
+      style={{
+        // Use a semi-transparent backdrop to ensure text readability over the gradient
+        backgroundColor: "rgba(31, 38, 49, 0.85)"
+      }}>
+   <h1 className="text-4xl font-bold mb-6">
+      All Aboard the Fun Express!
+   </h1>
+   <p className="mb-6">
+     Choo-choose us for a jolly ride to your destination! Where tracks lead, adventure follows! 🚂
+   </p>
+   <Button 
+     variant="contained" 
+     onClick={onClick}
+     style={{ backgroundColor: "#00df9a", color: "#fff" }} // Accent color for the button
+   >
+     Plan your journey
+   </Button>
+ </div>
+</div>
   );
 }
 
+
+
+
+
 function SearchField({ label, onSelect, onBack }) {
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center" >
       <div> 
         <Button variant="outlined" onClick={onBack}> 
         Back
@@ -179,3 +191,5 @@ function SearchField({ label, onSelect, onBack }) {
 
 export default Search;
 export { stations };
+
+
