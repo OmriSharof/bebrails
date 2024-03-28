@@ -6,14 +6,19 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Trainpic from "./components/Trainpic";
 import Search from "./components/Seach";
+import Results from "./components/Results";
 
+import TrainSchedule from "./components/TrainSchedule";
 function App() {
 
 
   return (
     <div>
       <Navbar />
+      <Results/>
       <Search/>
+
+      <TrainSchedule/>
       <Trainpic />
     </div>
   );
