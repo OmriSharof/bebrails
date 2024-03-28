@@ -1,40 +1,51 @@
-import React from 'react';
-import trainScheduleData from './train.json'; // Adjust the import path as needed
+import React, { useState } from 'react';
+import './TrainSchedule.css'; // Your existing CSS
+import RouteDetails from './RouteDetails'; // Import the RouteDetails component you will create
 
-const TrainSchedule = () => {
-  const schedule = trainScheduleData.result.travels;
+const TrainSchedule = ({ scheduleData }) => {
+  const [selectedTrain, setSelectedTrain] = useState(null);
+
+  // This function is called when a train box is clicked.
+  // It sets the selected train in the state which will be used to pass data to the RouteDetails component.
+  const handleTrainClick = (train) => {
+    setSelectedTrain(train);
+  };
 
   return (
-    <div>
-      <h2>Train Schedule</h2>
-      <ul>
-        {schedule.map((travel, index) => (
-          <li key={index}>
-            <p>Departure: {travel.departureTime} - Arrival: {travel.arrivalTime}</p>
-            <p>Free Seats: {travel.freeSeats}</p>
-            <h4>Trains:</h4>
-            <ul>
-              {travel.trains.map((train, trainIndex) => (
-                <li key={trainIndex}>
-                  <p>Train Number: {train.trainNumber}</p>
-                  <p>From Station: {train.orignStation} To Station: {train.destinationStation}</p>
-                  <p>Departure: {train.departureTime} - Arrival: {train.arrivalTime}</p>
-                  <h5>Stops:</h5>
-                  <ul>
-                    {train.stopStations.map((stop, stopIndex) => (
-                      <li key={stopIndex}>
-                        <p>Station: {stop.stationId}</p>
-                        <p>Arrival: {stop.arrivalTime} - Departure: {stop.departureTime}</p>
-                        <p>Crowdedness: {stop.crowded}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ul>
-          </li>
+    <div className="train-schedule">
+      <h1>Available trains</h1>
+      <div className="train-list">
+        {scheduleData.travels.map((travel, index) => (
+          <div key={index} className="train" onClick={() => handleTrainClick(travel)}>
+            <div className="train-details">
+              <div className="train-time">
+                <span className="departure-time"> 
+                  {new Date(travel.departureTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </span>
+                <span className="travel-time">
+                  {Math.floor((new Date(travel.arrivalTime) - new Date(travel.departureTime)) / 60000)} min
+                </span>
+                <span className="arrival-time">
+                  {new Date(travel.arrivalTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </span>
+              </div>
+              <div className="train-platforms">
+                <span>Platform {travel.trains[0].originPlatform}</span>
+                <span>No changes</span>
+                <span>Platform {travel.trains[0].destPlatform}</span>
+              </div>
+            </div>
+            <button className="prices-btn">Prices</button>
+          </div>
         ))}
-      </ul>
+      </div>
+      {selectedTrain && (
+        <RouteDetails
+          isOpen={Boolean(selectedTrain)}
+          onClose={() => setSelectedTrain(null)}
+          train={selectedTrain}
+        />
+      )}
     </div>
   );
 };
