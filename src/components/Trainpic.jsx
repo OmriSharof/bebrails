@@ -12,6 +12,5 @@ const Trainpic = () => {
         </div>
     )
 }
-
-
 export default Trainpic
+
