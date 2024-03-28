@@ -15,11 +15,7 @@ function App() {
   return (
     <div>
       <Navbar />
-      <Results/>
       <Search/>
-
-      <TrainSchedule/>
-      <Trainpic />
     </div>
   );
 }
