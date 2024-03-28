@@ -103,7 +103,6 @@ function Search() {
       console.error("Error fetching route:", error);
     }
   }
-
   
   return (
     <div>
