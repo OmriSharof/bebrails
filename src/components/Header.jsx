@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 
-import "./Navbar.css";
+import "./Header.css";
 
-const Navbar = () => {
-  const [nav, setNav] = useState(false);
+const Header = () => {
   const [showAboutPopup, setShowAboutPopup] = useState(false);
   const [showFaqPopup, setShowFaqPopup] = useState(false);
 
-  const handleNav = () => {
-    setNav(!nav);
-  };
+
 
   const handleAboutClick = () => {
     setShowAboutPopup(true);
@@ -173,4 +170,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Header;
