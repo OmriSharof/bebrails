@@ -8,6 +8,9 @@ import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import SearchIcon from "@mui/icons-material/Search";
+
 import "./TrainSchedule.css";
 import "./RouteDetails.css";
 
@@ -140,30 +143,13 @@ function Search() {
       });
   }, []);
 
-  // function FindRoute() {
-  //   return axios
-  //     .get("http://44.204.86.203:5000/run-script", {
-  //       params: {
-  //         src: src.label,
-  //         dest: dest.label,
-  //         date: date,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       console.log("Route fetched successfully:", response.data);
-  //       return response.data;
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching route:", error);
-  //     });
-  // }
-
   return (
     <div>
       {step === 0 && <GetStarted onClick={handleGetStarted} />}
       {step === 1 && (
         <SearchField
-          label="Source"
+          title="From where?"
+          label="Origin Station"
           onSelect={handleSourceSelect}
           onBack={handleBack}
         />
@@ -171,7 +157,8 @@ function Search() {
       {step === 2 && (
         <div>
           <SearchField
-            label="Destination"
+            title="To where?"
+            label="Destination Station"
             onSelect={handleDestinationSelect}
             onBack={handleBack}
           />
@@ -191,13 +178,7 @@ function Search() {
 
 function GetStarted({ onClick }) {
   return (
-    <div
-      className="hero min-h-screen flex flex-col justify-center items-center text-center p-4"
-      style={{
-        background:
-          "linear-gradient(to right, #121212, #121212 85%, #00df9a 100%)",
-      }}
-    >
+    <div className="hero min-h-screen flex flex-col justify-center items-center text-center p-4">
       <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
         Ready for an Adventure?
       </h1>
@@ -208,12 +189,21 @@ function GetStarted({ onClick }) {
         variant="contained"
         onClick={onClick}
         style={{
-          backgroundColor: "#00df9a", // Your accent color
+          backgroundColor: "#00df9a",
           color: "white",
           fontWeight: "bold",
           padding: "1rem 2rem",
           borderRadius: "0.5rem",
           boxShadow: "0 3px 5px 2px rgba(0, 0, 0, 0.2)",
+          transition: "0.3s ease-out", // Transition for smooth effects
+        }}
+        onMouseOver={(e) => {
+          e.currentTarget.style.backgroundColor = "#019568"; // Darker shade on hover
+          e.currentTarget.style.boxShadow = "0 6px 9px 3px rgba(0, 0, 0, 0.3)"; // Larger shadow for depth
+        }}
+        onMouseOut={(e) => {
+          e.currentTarget.style.backgroundColor = "#00df9a"; // Original color
+          e.currentTarget.style.boxShadow = "0 3px 5px 2px rgba(0, 0, 0, 0.2)"; // Original shadow
         }}
       >
         Plan your journey
@@ -222,32 +212,60 @@ function GetStarted({ onClick }) {
   );
 }
 
-function SearchField({ label, onSelect, onBack }) {
+function SearchField({ title, label, onSelect, onBack }) {
   return (
-    <div className="flex justify-center items-center">
-      <div>
-        <Button variant="outlined" onClick={onBack} style={{ zIndex: 100 }}>
+    <div className="hero min-h-screen flex flex-col justify-center items-center text-center p-4">
+      {/* Display dynamic title */}
+      <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+        {title}
+      </h1>
+
+      <div className="flex flex-col justify-center items-center space-y-4">
+        <Button
+          variant="outlined"
+          onClick={onBack}
+          startIcon={<ArrowBackIcon />}
+          style={{
+            borderColor: "#00df9a",
+            color: "#00df9a",
+            fontWeight: "bold",
+            textTransform: "none",
+            padding: "10px 20px",
+            borderRadius: "4px",
+            transition: "0.3s", // Smooth transition for hover effects
+          }}
+        >
           Back
         </Button>
+
+        <Autocomplete
+          sx={{
+            width: 300, // Default width for mobile
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "#00df9a", // Customizing the border color
+              },
+              "&:hover fieldset": {
+                borderColor: "white", // Change border color on hover
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#00df9a", // Border color when focused
+              },
+            },
+            "& .MuiInputLabel-root": {
+              color: "#ffffff", // Label color
+            },
+            bgcolor: "#121212", // Background color for the input field
+          }}
+          size="big"
+          onChange={(event, newValue) => onSelect(newValue)}
+          disablePortal
+          id="combo-box"
+          options={stations}
+          getOptionLabel={(option) => option.label}
+          renderInput={(params) => <TextField {...params} label={label} />}
+        />
       </div>
-      <Autocomplete
-        sx={{
-          zIndex: 100,
-          width: 500,
-          bgcolor: "background.paper",
-          color: (theme) =>
-            theme.palette.getContrastText(theme.palette.background.paper),
-        }}
-        size="small"
-        onChange={(event, newValue) => {
-          onSelect(newValue);
-        }}
-        disablePortal
-        id="combo-box"
-        options={stations}
-        getOptionLabel={(option) => option.label}
-        renderInput={(params) => <TextField {...params} label={label} />}
-      />
     </div>
   );
 }
@@ -255,26 +273,85 @@ function SearchField({ label, onSelect, onBack }) {
 function ChooseDate({ onSelect, onBack, onRequest }) {
   const [value, setValue] = React.useState(dayjs());
 
+  // Inline styles for the date picker's text field
+  const datePickerTextFieldStyle = {
+    backgroundColor: "#121212", // Dark background for the text field
+    borderRadius: "4px", // Consistent with the button border radius
+    color: "white", // Text color for the input
+    "& .MuiInputBase-input": {
+      color: "#fff", // Ensuring the text color is white for all states
+    },
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#00df9a", // Customizing the border color
+    },
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "white", // Border color on hover
+    },
+    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#00df9a", // Border color when focused
+    },
+  };
+
   return (
-    <div className="flex justify-center items-center">
-      <div>
-        <Button variant="outlined" onClick={onBack}>
+    <div className="hero min-h-screen flex flex-col justify-center items-center text-center p-4">
+      <div className="flex flex-col justify-center items-center space-y-4">
+        <Button
+          variant="outlined"
+          onClick={onBack}
+          startIcon={<ArrowBackIcon />}
+          style={{
+            borderColor: "#00df9a",
+            color: "#00df9a",
+            fontWeight: "bold",
+            textTransform: "none",
+            padding: "10px 20px",
+            borderRadius: "4px",
+            transition: "0.3s", // Smooth transition for hover effects
+          }}
+        >
           Back
         </Button>
-      </div>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <StaticDatePicker
-          displayStaticWrapperAs="desktop"
-          openTo="day"
-          value={value}
-          onChange={(newValue) => onSelect(newValue)}
-          renderInput={(params) => <TextField {...params} />}
-        />
-      </LocalizationProvider>
 
-      <Button variant="outlined" onClick={onRequest}>
-        Search Trains
-      </Button>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <StaticDatePicker
+            openTo="day"
+            value={value}
+            onChange={(newValue) => {
+              setValue(newValue);
+              onSelect(newValue);
+            }}
+            renderInput={(params) => (
+              <TextField {...params} style={datePickerTextFieldStyle} />
+            )}
+          />
+        </LocalizationProvider>
+
+        <Button
+          variant="outlined"
+          onClick={onRequest}
+          startIcon={<SearchIcon />} // Add the search icon to the button
+          style={{
+            borderColor: "#00df9a",
+            color: "#00df9a",
+            fontWeight: "bold",
+            textTransform: "none",
+            padding: "10px 20px",
+            borderRadius: "4px",
+            transition: "0.3s ease-out", // Transition for smooth effects
+          }}
+          // We can use onMouseOver and onMouseOut to simulate hover effects
+          onMouseOver={(e) => {
+            e.target.style.backgroundColor = "#00df9a";
+            e.target.style.color = "white";
+          }}
+          onMouseOut={(e) => {
+            e.target.style.backgroundColor = "transparent";
+            e.target.style.color = "#00df9a";
+          }}
+        >
+          Search Trains
+        </Button>
+      </div>
     </div>
   );
 }
