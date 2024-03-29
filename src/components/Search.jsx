@@ -7,7 +7,7 @@ import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-
+import { createMuiTheme, ThemeProvider } from '@mui/material/styles';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -272,7 +272,34 @@ function SearchField({ title, label, onSelect, onBack }) {
 
 function ChooseDate({ onSelect, onBack, onRequest }) {
   const [value, setValue] = React.useState(dayjs());
-
+  const darkTheme = createMuiTheme({
+    palette: {
+      type: 'dark',
+      primary: {
+        main: '#2196f3',
+      },
+      background: {
+        paper: '#1F2937',
+        default: '#ffffff',
+      },
+      '.MuiPickersToolbar-root': {
+        color: '#bbdefb',
+        borderRadius: '3px',
+        borderWidth: '3px',
+        borderColor: '#2196f3',
+        border: '3px solid',
+        backgroundColor: '#00df9a',
+      },
+      '.MuiDateCalendar-root': {
+        color: '#bbdefb',
+        borderRadius: '3px',
+        borderWidth: '3px',
+        borderColor: '#2196f3',
+        border: '3px solid',
+        backgroundColor: '#00df9a',
+      },
+    },
+  });
   // Inline styles for the date picker's text field
   const datePickerTextFieldStyle = {
     backgroundColor: "#121212", // Dark background for the text field
@@ -312,19 +339,49 @@ function ChooseDate({ onSelect, onBack, onRequest }) {
           Back
         </Button>
 
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <StaticDatePicker
-            openTo="day"
-            value={value}
-            onChange={(newValue) => {
-              setValue(newValue);
-              onSelect(newValue);
-            }}
-            renderInput={(params) => (
-              <TextField {...params} style={datePickerTextFieldStyle} />
-            )}
-          />
-        </LocalizationProvider>
+        <ThemeProvider theme={darkTheme}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <StaticDatePicker displayStaticWrapperAs="" // Static desktop mode 
+            orientation="landscape" // Landscape orientation
+            showToolbar={false} // Toolbar visible
+            showDaysOutsideCurrentMonth={true} // Show days outside of month
+              sx={{
+                  // '.MuiPickersToolbar-root': {
+                  //   color: '#bbdefb',
+                  //   borderRadius: '3px',
+                  //   borderWidth: '3px',
+                  //   borderColor: '#2196f3',
+                  //   border: '3px solid',
+                  //   backgroundColor: '#00df9a',
+                  // },
+                  // '.MuiDateCalendar-root': {
+                  //   color: '#bbdefb',
+                  //   borderRadius: '3px',
+                  //   borderWidth: '3px',
+                  //   borderColor: '#2196f3',
+                  //   border: '3px solid',
+                  //   backgroundColor: '#00df9a',
+                  // },
+              }}
+              slotProps={{
+                actionBar: {
+                  actions: ['today'],
+                },
+              }}
+              openTo="day"
+              value={value}
+              onChange={(newValue) => {
+                setValue(newValue);
+                onSelect(newValue);
+              }}
+              renderInput={(params) => (
+                <TextField {...params} style={datePickerTextFieldStyle} />
+              )}
+            />
+          </LocalizationProvider>
+        </ThemeProvider>
+
+        
 
         <Button
           variant="outlined"
