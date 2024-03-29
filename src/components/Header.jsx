@@ -69,7 +69,12 @@ const Header = () => {
     <div className="fixed top-0 left-0 w-full h-24 z-10">
       <header className="flex justify-between items-center max-w-[1240px] mx-auto px-4 h-24 text-white">
         <div className="flex space-x-1 items-center">
-         <a href="http://localhost:3000" className="text-3xl font-bold text-[#00df9a]">BebRails.</a>
+          <a
+            href="http://localhost:3000"
+            className="text-3xl font-bold text-[#00df9a]"
+          >
+            BebRails.
+          </a>
         </div>
         <nav className="flex items-center">
           <ul className="flex">
@@ -100,13 +105,40 @@ const Header = () => {
             </h2>
             <div className="mb-8">
               <p className="text-white mb-4">
-                Choo-choo-choose <span className="text-accent">BebRails</span>{" "}
-                for a journey filled with joy, comfort, and the best views a
-                window seat can offer! 🌄 We ensure you won't just reach your
-                destination; you'll arrive with a smile so big, it'll rival our
-                locomotives. 😄 Whether you're in for the long haul or just a
-                quick skip down the tracks, trust us, your experience will be
-                nothing short of legendary. 🏰✨
+                Embark on a digital journey with{" "}
+                <span className="text-accent">BebRails</span>, the innovative
+                creation from the bright minds at Braude Academic College as
+                part of their "Advanced Web Technologies" course. 🎓🚀
+              </p>
+              <p className="text-white mb-4">
+                Our platform, fueled by the power of React, offers an engaging
+                and interactive UI. This masterpiece connects you directly to
+                the Israel Railway systems through a meticulously crafted server
+                and API, ensuring your travel planning is seamless and
+                efficient. 🚂💻
+              </p>
+              <p className="text-white mb-4">
+                With the sleek and modern design powered by Tailwind CSS,
+                BebRails is your go-to for navigating train schedules and
+                bookings, beautifully optimized for both your desktop and mobile
+                escapades. 📱💼
+              </p>
+              <p className="text-white mb-4">
+                The magicians behind this technological marvel,{" "}
+                <span className="text-accent">
+                  Alex Pitkin, Ilya Vorotyntsev, Boris Shoostin, and Omri Sharof
+                </span>
+                , have been the conductors steering this project to success,
+                ensuring your digital journey is as smooth as the gliding of a
+                train on its tracks. 🛤️✨
+              </p>
+              <p className="text-white mb-4">
+                So, whether you're planning your next railway adventure or just
+                cruising through the digital landscape, remember: BebRails is
+                your express train to a world of effortless navigation and
+                discovery. 🌟 
+                <span className="text-accent">"Stay on track, and the world will be your
+                station!" </span>🌍😄
               </p>
             </div>
             <button
