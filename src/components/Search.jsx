@@ -403,9 +403,9 @@ function TrainSchedule({ scheduleData }) {
     const minutes = Math.floor(duration / 60000);
     return `${minutes} min`;
   };
-
+  
   const hasChanges = (trains) => trains.length > 1;
-
+  
   return (
     <div className="train-schedule">
       <div className="train-list border border-gray-300 rounded overflow-hidden my-10 w-full max-w-md">
@@ -423,6 +423,7 @@ function TrainSchedule({ scheduleData }) {
                   {new Date(travel.departureTime).toLocaleTimeString([], {
                     hour: '2-digit',
                     minute: '2-digit',
+                    hour12: false // Use 24-hour format
                   })}
                 </span>
                 <span className="travel-duration text-sm text-gray-600">
@@ -432,12 +433,13 @@ function TrainSchedule({ scheduleData }) {
                   {new Date(travel.arrivalTime).toLocaleTimeString([], {
                     hour: '2-digit',
                     minute: '2-digit',
+                    hour12: false // Use 24-hour format
                   })}
                 </span>
               </div>
               <div className="platform-details flex flex-col items-center justify-center">
                 <span>Platform {travel.trains[0].originPlatform}</span>
-                <span>{hasChanges(travel.trains) ? "1 Changes" : "No changes"}</span>
+                <span>{hasChanges(travel.trains) ? "1 Change" : "No changes"}</span>
                 <span>Platform {travel.trains[travel.trains.length - 1].destPlatform}</span>
               </div>
             </div>
@@ -455,7 +457,7 @@ function TrainSchedule({ scheduleData }) {
         />
       )}
     </div>
-  );
+  );  
 }
 
 
