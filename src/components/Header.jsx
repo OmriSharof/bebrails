@@ -66,7 +66,7 @@ const Header = () => {
   ]);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-24 z-10">
+    <div className="top-0 left-0 w-full h-24 z-50">
       <header className="flex justify-between items-center max-w-[1240px] mx-auto px-4 h-24 text-white">
         <div className="flex space-x-1 items-center">
           <a

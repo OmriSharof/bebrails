@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -128,8 +129,6 @@ function Search() {
     setStep(step - 1);
   };
 
-  // TODO: Back to Home with click on Name BebRails.
-
   async function FindRoute() {
     try {
       const response = await axios.get("http://44.204.86.203:5000/run-script", {
@@ -199,7 +198,7 @@ function Search() {
 
 function GetStarted({ onClick }) {
   return (
-    <div className="hero min-h-screen flex flex-col justify-center items-center text-center p-4">
+    <div className="min-h-[80vh] flex flex-col justify-center items-center text-center">
       <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
         Ready for an Adventure?
       </h1>
@@ -209,25 +208,28 @@ function GetStarted({ onClick }) {
       <Button
         variant="contained"
         onClick={onClick}
-        style={{
+        sx={{
           backgroundColor: "#00df9a",
-          color: "white",
+          color: "#192033",
           fontWeight: "bold",
           padding: "1rem 2rem",
           borderRadius: "0.5rem",
           boxShadow: "0 3px 5px 2px rgba(0, 0, 0, 0.2)",
-          transition: "0.3s ease-out", // Transition for smooth effects
-        }}
-        onMouseOver={(e) => {
-          e.currentTarget.style.backgroundColor = "#019568"; // Darker shade on hover
-          e.currentTarget.style.boxShadow = "0 6px 9px 3px rgba(0, 0, 0, 0.3)"; // Larger shadow for depth
-        }}
-        onMouseOut={(e) => {
-          e.currentTarget.style.backgroundColor = "#00df9a"; // Original color
-          e.currentTarget.style.boxShadow = "0 3px 5px 2px rgba(0, 0, 0, 0.2)"; // Original shadow
+          transition:
+            "transform 0.3s ease-out, box-shadow 0.3s ease-out, background-color 0.3s ease-out",
+          "&:hover": {
+            backgroundColor: "#00df9a",
+            boxShadow: "0 0 15px rgba(0, 223, 154, 0.5)",
+            transform: "scale(1.05)",
+            color: "#F9F6EE",
+          },
+          "&:active": {
+            backgroundColor: "#017c4b", // Even darker shade for an 'active' or 'pressed' state
+            boxShadow: "0 3px 5px 2px rgba(0, 0, 0, 0.2)", // Revert to the original shadow
+          },
         }}
       >
-        Plan your journey
+        Plan my journey
       </Button>
     </div>
   );
@@ -235,53 +237,45 @@ function GetStarted({ onClick }) {
 
 function SearchField({ title, label, onSelect, onBack, source }) {
   return (
-    <div className="hero min-h-screen flex flex-col justify-center items-center text-center p-4">
-      {/* Display dynamic title */}
-      {source && (
-        <h1 className="text-3xl md:text-5xl font-bold text-white mb-6">
-          From: {source}
-        </h1>
-      )}
-      <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-        {title}
+    <div className="min-h-[80vh] flex flex-col justify-center items-center text-center p-4 space-y-6">
+      {/* Main Title */}
+      <h1 className="text-5xl md:text-7xl font-bold text-white">
+        {title}{" "}
+        {/* Assuming 'title' variable holds something like "Plan Your Journey" */}
       </h1>
 
-      <div className="flex flex-col justify-center items-center space-y-4">
-        <Button
-          variant="outlined"
-          onClick={onBack}
-          startIcon={<ArrowBackIcon />}
-          style={{
-            borderColor: "#00df9a",
-            color: "#00df9a",
-            fontWeight: "bold",
-            textTransform: "none",
-            padding: "10px 20px",
-            borderRadius: "4px",
-            transition: "0.3s", // Smooth transition for hover effects
-          }}
-        >
-          Back
-        </Button>
+      {/* Source Location */}
+      {source && (
+        <h2 className="text-3xl md:text-5xl font-bold text-white">
+          From: {source}
+        </h2>
+      )}
 
+      {/* Destination Autocomplete Field */}
+      <div className="w-full max-w-md">
         <Autocomplete
           sx={{
-            width: 300, // Default width for mobile
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
-                borderColor: "#00df9a", // Customizing the border color
+                borderColor: "#9ca3af",
               },
               "&:hover fieldset": {
-                borderColor: "white", // Change border color on hover
+                borderColor: "#00df9a",
               },
               "&.Mui-focused fieldset": {
-                borderColor: "#00df9a", // Border color when focused
+                borderColor: "#00df9a",
               },
             },
             "& .MuiInputLabel-root": {
-              color: "#ffffff", // Label color
+              color: "#00df9a",
             },
-            bgcolor: "#121212", // Background color for the input field
+            "& .MuiInputBase-input": {
+              color: "#00df9a",
+            },
+            bgcolor: "#1F2937",
+            "& .MuiSvgIcon-root": {
+              color: "#00df9a",
+            },
           }}
           size="big"
           onChange={(event, newValue) => onSelect(newValue)}
@@ -289,9 +283,56 @@ function SearchField({ title, label, onSelect, onBack, source }) {
           id="combo-box"
           options={stations}
           getOptionLabel={(option) => option.label}
-          renderInput={(params) => <TextField {...params} label={label} />}
+          renderOption={(props, option) => (
+            <Box
+              component="li"
+              sx={{
+                cursor: "pointer",
+                "&:hover": {
+                  color: "#1F2937",
+                },
+                color: "#F9F6EE", // Default text color
+                backgroundColor: "#1F2937", // Default background color
+              }}
+              {...props}
+            >
+              {option.label}
+            </Box>
+          )}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label={label}
+              inputProps={{
+                ...params.inputProps,
+              }}
+            />
+          )}
         />
       </div>
+
+      {/* Back Button */}
+      <Button
+        variant="outlined"
+        onClick={onBack}
+        startIcon={<ArrowBackIcon />}
+        sx={{
+          borderColor: "#00df9a",
+          color: "#00df9a",
+          fontWeight: "bold",
+          textTransform: "none",
+          padding: "10px 20px",
+          borderRadius: "4px",
+          transition: "background-color 0.3s ease, color 0.3s ease",
+          "&:hover": {
+            backgroundColor: "rgba(0, 223, 154, 0.1)",
+            color: "#00df9a",
+            borderColor: "#00df9a",
+          },
+        }}
+      >
+        Back
+      </Button>
     </div>
   );
 }
@@ -325,91 +366,112 @@ function ChooseDate({ onSelect, onBack, onRequest, source, destination }) {
     : ["today"];
 
   return (
-    <div className="hero min-h-screen flex flex-col justify-center items-center text-center p-4">
-      <div className="flex flex-col justify-center items-center space-y-4">
-        <h1 className="text-3xl md:text-5xl font-bold text-white mb-6">
+    <div className="min-h-[80vh] flex flex-col justify-center items-center text-center p-4 space-y-6">
+      {/* Conditionally render the source and destination if they exist */}
+      {/* Main Title */}
+      <h1 className="text-5xl md:text-7xl font-bold text-white">
+        Which date?
+        {/* Assuming 'title' variable holds something like "Plan Your Journey" */}
+      </h1>
+      {source && (
+        <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
           From: {source}
-        </h1>
-        <h1 className="text-3xl md:text-5xl font-bold text-white mb-6">
+        </h2>
+      )}
+      {destination && (
+        <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
           To: {destination}
-        </h1>
+        </h2>
+      )}
+
+      {/* Display the DatePickerComponent */}
+      <ThemeProvider theme={darkTheme}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePickerComponent
+            orientation={isSmallScreen ? "portrait" : "landscape"}
+            showToolbar={false} // Toolbar visible
+            showDaysOutsideCurrentMonth={true} // Show days outside of month
+            openTo="day"
+            views={["month", "day"]}
+            sx={{
+              border: "2px solid #00df9a",
+              borderRadius: "5px",
+              ".MuiPickersToolbar-content": {
+                color: "#00df9a",
+              },
+              ".MuiPickersCalendarHeader-label": {
+                color: "#00df9a",
+              },
+              ".MuiPickersDay-today": {
+                borderColor: "#00df9a",
+              },
+              ".MuiPickersMonth-root": {
+                color: "#fffff0",
+              },
+            }}
+            slotProps={{
+              actionBar: {
+                actions: actionBarActions,
+              },
+            }}
+            value={value}
+            onChange={(newValue) => {
+              setValue(newValue);
+              onSelect(newValue);
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
+      </ThemeProvider>
+
+      {/* Action buttons for Back and Search Trains */}
+      <div className="flex flex-col sm:flex-row sm:justify-center sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
         <Button
           variant="outlined"
           onClick={onBack}
           startIcon={<ArrowBackIcon />}
-          style={{
+          sx={{
             borderColor: "#00df9a",
             color: "#00df9a",
             fontWeight: "bold",
             textTransform: "none",
             padding: "10px 20px",
             borderRadius: "4px",
-            transition: "0.3s", // Smooth transition for hover effects
+            transition: "background-color 0.3s ease, color 0.3s ease",
+            "&:hover": {
+              backgroundColor: "rgba(0, 223, 154, 0.1)",
+              color: "#00df9a",
+              borderColor: "#00df9a",
+            },
           }}
         >
           Back
         </Button>
 
-        <ThemeProvider theme={darkTheme}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePickerComponent
-              orientation={isSmallScreen ? "portrait" : "landscape"}
-              showToolbar={false} // Toolbar visible
-              showDaysOutsideCurrentMonth={true} // Show days outside of month
-              openTo="day"
-              views={["month", "day"]}
-              sx={{
-                border: "2px solid #00df9a",
-                borderRadius: "5px",
-                ".MuiPickersToolbar-content": {
-                  color: "#00df9a",
-                },
-                ".MuiPickersCalendarHeader-label": {
-                  color: "#00df9a",
-                },
-                ".MuiPickersDay-today": {
-                  borderColor: "#00df9a",
-                },
-                ".MuiPickersMonth-root": {
-                  color: "#fffff0",
-                },
-              }}
-              slotProps={{
-                actionBar: {
-                  actions: actionBarActions,
-                },
-              }}
-              value={value}
-              onChange={(newValue) => {
-                setValue(newValue);
-                onSelect(newValue);
-              }}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
-        </ThemeProvider>
-
         <Button
           variant="outlined"
           onClick={onRequest}
-          startIcon={<SearchIcon />} // Add the search icon to the button
-          style={{
+          startIcon={<SearchIcon />}
+          sx={{
             borderColor: "#00df9a",
             color: "#00df9a",
             fontWeight: "bold",
             textTransform: "none",
             padding: "10px 20px",
             borderRadius: "4px",
-            transition: "0.3s ease-out", // Transition for smooth effects
-          }}
-          // We can use onMouseOver and onMouseOut to simulate hover effects
-          onMouseOver={(e) => {
-            e.target.style.backgroundColor = "#00df9a";
-            e.target.style.color = "white";
-          }}
-          onMouseOut={(e) => {
-            e.target.style.backgroundColor = "transparent";
-            e.target.style.color = "#00df9a";
+            transition: "all 0.3s ease",
+            "&:hover": {
+              backgroundColor: "rgba(0, 223, 154, 0.1)",
+              color: "#00df9a",
+              boxShadow: "0 4px 20px rgba(0, 223, 154, 0.25)", // more pronounced glow effect on hover
+              transform: "scale(1.05)", // button grows larger on hover
+              borderColor: "#00df9a",
+            },
+            "&:active": {
+              backgroundColor: "rgba(0, 223, 154, 0.2)", // slightly darker on click
+              boxShadow: "0 1px 5px rgba(0, 223, 154, 0.3)", // more pronounced shadow on click
+              transform: "translateY(1px)", // button appears pressed on click
+            },
           }}
         >
           Search Trains
@@ -438,50 +500,62 @@ function TrainSchedule({ scheduleData, source, destination, date }) {
 
   return (
     <div className="train-schedule">
-      <h1 className="text-3xl md:text-5xl font-bold text-white mb-6">
-        From: {source}
-      </h1>
-      <h1 className="text-3xl md:text-5xl font-bold text-white mb-6">
-        To: {destination}
-      </h1>
-      <h1 className="text-3xl md:text-5xl font-bold text-white mb-6">
-        Date: {date}
-      </h1>
-      <div className="train-list border border-gray-300 rounded overflow-hidden my-10 w-full max-w-md">
-        {/* MAKE EMPTY TRAVELS LIST */}
+      {/* Display From, To, and Date at the top */}
+      <div className="text-center mb-6">
+        <h1 className="text-3xl md:text-5xl font-bold text-white">
+          From: {source}
+        </h1>
+        <h1 className="text-3xl md:text-5xl font-bold text-white">
+          To: {destination}
+        </h1>
+        <h1 className="text-3xl md:text-5xl font-bold text-white">
+          Date: {date}
+        </h1>
+      </div>
+
+      {/* Train list container */}
+      <div className="train-list">
         {scheduleData.result.travels.map((travel, index) => (
           <div
             key={index}
-            className={`travel-item flex justify-between items-center p-4 ${
-              index === selectedIndex ? "bg-gray-200" : "bg-white"
-            } cursor-pointer`}
+            className={`travel-item ${
+              index === selectedIndex ? "selected" : ""
+            }`}
             onClick={() => handleTravelClick(travel, index)}
-            style={{ marginBottom: "4px" }}
           >
+            {/* Train details */}
             <div className="travel-details">
-              <span className="train-number bg-gray-200 text-gray-700 font-bold text-lg rounded px-2 mr-auto">
+              {/* Train number */}
+              <span className="train-number">
                 🚆 {travel.trains[0].trainNumber}
               </span>
-              <div className="time-and-platform flex flex-col items-center justify-center flex-1">
-                <span className="departure-time text-lg text-gray-700">
+
+              {/* Time and platform details */}
+              <div className="time-and-platform">
+                <span className="departure-time">
+                  Depart:{" "}
                   {new Date(travel.departureTime).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
-                    hour12: false, // Use 24-hour format
+                    hour12: false,
                   })}
                 </span>
-                <span className="travel-duration text-sm text-gray-600">
+                <span className="travel-duration">
+                  Duration:{" "}
                   {formatTravelTime(travel.departureTime, travel.arrivalTime)}
                 </span>
-                <span className="arrival-time text-lg text-gray-700">
+                <span className="arrival-time">
+                  Arrive:{" "}
                   {new Date(travel.arrivalTime).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
-                    hour12: false, // Use 24-hour format
+                    hour12: false,
                   })}
                 </span>
               </div>
-              <div className="platform-details flex flex-col items-center justify-center">
+
+              {/* Platform details */}
+              <div className="platform-details">
                 <span>Platform {travel.trains[0].originPlatform}</span>
                 <span>
                   {hasChanges(travel.trains) ? "1 Change" : "No changes"}
@@ -495,6 +569,8 @@ function TrainSchedule({ scheduleData, source, destination, date }) {
           </div>
         ))}
       </div>
+
+      {/* Display selected route details */}
       {selectedTravel && (
         <RouteDetails
           isOpen={Boolean(selectedTravel)}
@@ -557,6 +633,7 @@ function RouteDetails({ isOpen, onClose, travel }) {
             Close
           </button>
         </div>
+
         <div className="space-y-6">
           {travel.trains.map((train, index) => {
             const routeStationsToShow = expanded
@@ -593,8 +670,9 @@ function RouteDetails({ isOpen, onClose, travel }) {
             );
           })}
         </div>
+
         <button
-          className="expand-collapse-btn mt-4 py-2 px-4 bg-gray-700 text-white rounded hover:bg-gray-600"
+          className="toggle-expand-button"
           onClick={() => setExpanded(!expanded)}
         >
           {expanded ? "Collapse" : "Expand"} All

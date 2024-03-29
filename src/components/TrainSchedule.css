@@ -1,28 +1,47 @@
 .train-schedule {
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  padding-top: 80px;
+  justify-content: flex-start;
+  padding-top: 40px;
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+  padding-bottom: 20px;
+  color: #333;
+  /* Dark gray text for readability */
 }
 
 .train-list {
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #bbb;
+  /* Lighter gray border */
+  border-radius: 8px;
   overflow: hidden;
-  margin: 10px 0;
+  margin-top: 20px;
   width: 100%;
-  max-width: 500px; /* Adjust this width as necessary */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Slightly deeper shadow for distinction */
 }
 
 .travel-item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-  background-color: #fff;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid #eaeaea;
+  /* Very light gray border for separation */
+  background-color: #fafafa;
+  /* Off-white background for items */
   cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.travel-item:hover {
+  background-color: #f5f5f5;
+  /* Slightly darker gray on hover */
+  transform: scale(1.02);
+  /* Subtle grow effect for richness */
 }
 
 .travel-item:last-child {
@@ -30,75 +49,49 @@
 }
 
 .travel-item.selected {
-  background-color: #f0f0f0;
+  background-color: #0ab47f;
+  /* Use accent color for selected item */
+  color: white;
+  /* Ensure text contrasts well against the accent background */
 }
 
-.travel-item .travel-details {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+.time-and-platform .train-number,
+.time-and-platform .departure-time,
+.time-and-platform .arrival-time,
+.time-and-platform .travel-duration {
+  font-weight: bold;
 }
 
 .time-and-platform,
 .platform-details {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px; /* Adjust the gap as needed */
-  flex: 1;
+  gap: 8px;
+  /* consistent spacing */
+  justify-content: space-between;
+  width: 100%;
 }
 
 .train-number {
   font-weight: bold;
-  font-size: 1.2em;
-  color: #333;
-  background-color: #eaeaea;
-  padding: 3px 8px;
-  border-radius: 4px;
-  margin-right: auto; /* Push everything else to the right */
+  color: #00df9a;
+  /* use brand color */
+  background-color: #263244;
+  padding: 6px 12px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  /* prevent shrinking */
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
-.travel-duration {
-  font-size: 0.9em;
-  color: #666;
-  padding: 4px 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  text-align: center;
-  margin: 0 20px; /* Give some space on both sides */
-}
-
+.travel-duration,
 .departure-time,
 .arrival-time {
-  font-size: 1.1em;
+  font-size: 1em;
   color: #333;
 }
 
 .platform-details span {
   font-size: 0.9em;
-  color: #333;
-}
-
-.prices-btn {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9em;
-  margin-left: auto; /* Push the button to the right */
-}
-
-.prices-btn:hover {
-  background-color: #0056b3;
-}
-
-/* This centers the entire .train-schedule inside its parent, if needed */
-.train-schedule-parent {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  color: #666;
+  /* slightly lighter for less emphasis */
 }

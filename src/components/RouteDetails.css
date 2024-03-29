@@ -1,146 +1,119 @@
 .route-details {
-    font-family: 'Arial', sans-serif;
-    position: fixed;
-    right: -100%; /* Start off the screen */
-    top: 0px; /* Add 80px padding from the top */
-    height: 100%;
-    width: 400px; /* Set a fixed width or use percentage */
-    background-color: #fff;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
-    overflow-x: hidden;
-    transition: right 0.5s;
-    z-index: 100;
-    border-radius: 4px; /* Adjust the value to change the roundness */
+  font-family: 'Arial', sans-serif;
+  position: fixed;
+  right: -100%;
+  /* Start off the screen */
+  top: 0px;
+  /* Add 80px padding from the top */
+  height: 100%;
+  width: 400px;
+  /* Set a fixed width or use percentage */
+  background-color: #fff;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  overflow-x: hidden;
+  transition: right 0.5s;
+  z-index: 100;
+  border-radius: 4px;
+  /* Adjust the value to change the roundness */
 }
 
 
 
 .route-details.open {
-    right: 0; /* Bring onto the screen */
-    
+  right: 0;
+  /* Bring onto the screen */
+
 }
 
 .route-details h2 {
-    color: #333;
-    padding: 20px;
-    margin-top: 0;
-    border-bottom: 1px solid #ddd;
+  color: #333;
+  padding: 20px;
+  margin-top: 0;
+  border-bottom: 1px solid #ddd;
 }
 
 .station-list {
-    overflow-y: auto; /* Allow scrolling for overflow content */
+  overflow-y: auto;
+  /* Allow scrolling for overflow content */
 }
 
 .station {
-    padding: 15px 20px;
-    border-bottom: 1px solid #eee;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
 }
 
 .station:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
-.station > div {
-    margin: 5px 0;
-    color: #ffffff;
+.station>div {
+  margin: 5px 0;
+  color: #ffffff;
 }
 
 .close-btn {
-    display: block;
-    width: auto; /* Auto width for content sizing */
-    padding: 10px 20px;
-    background-color: #004a99;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-size: 16px;
-    text-align: center;
-    margin: 10px;
-    outline: none; /* Remove outline for focus state */
+  display: block;
+  width: auto;
+  /* Auto width for content sizing */
+  padding: 10px 20px;
+  background-color: #004a99;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 16px;
+  text-align: center;
+  margin: 10px;
+  outline: none;
+  /* Remove outline for focus state */
 }
 
 .close-btn:hover {
-    background-color: #003366;
+  background-color: #003366;
 }
 
-.station.highlight > div {
-    font-weight: bold; /* Bold the text for highlighted stations */
+.station.highlight>div {
+  font-weight: bold;
+  /* Bold the text for highlighted stations */
 }
 
 .highlight {
-    font-weight: bold;
-  }
-  
-.expand-collapse-btn {
-    display: block;
-    width: auto; /* Auto width for content sizing */
-    padding: 10px 20px;
-    background-color: #008CBA;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-size: 16px;
-    text-align: center;
-    margin: 10px auto; /* Center button horizontally */
-    outline: none; /* Remove outline for focus state */
-  }
-  
-  .expand-collapse-btn:hover {
-    background-color: #005f73;
-  }
-  
-  .expand-collapse-btn {
-    display: block;
-    width: auto; /* Auto width for content sizing */
-    padding: 10px 20px;
-    background-color: #004a99;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-size: 16px;
-    text-align: center;
-    margin: 10px auto; /* Center button horizontally */
-    outline: none; /* Remove outline for focus state */
-  }
-  
-  .expand-collapse-btn:hover {
-    background-color: #003366;
-  }
-  
-  /* Align the expand-collapse button at the bottom of the route details panel */
-  .route-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* This will push the button to the bottom */
-  }
-  
-  .station {
-    padding: 15px 20px;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .station.highlight > div {
-    font-weight: bold; /* Bold the text for highlighted stations */
-  }
-
-/*  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
-
-  /* Custom Scrollbar CSS */
-.custom-scrollbar::-webkit-scrollbar {
-    width: 8px; /* Adjust scrollbar width */
+  font-weight: bold;
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: #71717A; /* Scrollbar thumb color */
-    border-radius: 4px; /* Rounded corners of the scrollbar thumb */
+/* Align the expand-collapse button at the bottom of the route details panel */
+.route-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* This will push the button to the bottom */
 }
 
-.custom-scrollbar::-webkit-scrollbar-track {
-    background-color: #111827; /* Scrollbar track color */
+.station {
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.station.highlight>div {
+  font-weight: bold;
+  /* Bold the text for highlighted stations */
+}
+
+.toggle-expand-button {
+  display: block;
+  width: auto;
+  padding: 10px 20px;
+  background-color: #008CBA;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 16px;
+  text-align: center;
+  margin: 20px auto;
+}
+
+.toggle-expand-button:hover {
+  background-color: #005f73;
 }
