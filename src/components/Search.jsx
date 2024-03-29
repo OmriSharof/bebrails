@@ -449,11 +449,14 @@ function TrainSchedule({ scheduleData }) {
 
 
 function RouteDetails({ isOpen, onClose, travel }) {
+  const [expanded, setExpanded] = useState(false);
+
   if (!isOpen) {
     return null;
   }
 
   const getStationName = (id) => {
+    // Assume stations is available in the context or via props
     const station = stations.find((s) => s.id === id);
     return station ? station.label : "Unknown Station";
   };
@@ -462,23 +465,41 @@ function RouteDetails({ isOpen, onClose, travel }) {
     return stationId === train.orignStation || stationId === train.destinationStation;
   };
 
+  const getRelevantStations = (train) => {
+    const route = train.routeStations;
+    const startIndex = route.findIndex(station => station.stationId === train.orignStation);
+    const endIndex = route.findIndex(station => station.stationId === train.destinationStation);
+    
+    // If both the source and destination are found, slice the array to get all stations in between.
+    // Otherwise, return the full route as a fallback.
+    return (startIndex !== -1 && endIndex !== -1) ? route.slice(startIndex, endIndex + 1) : route;
+  };
+
   return (
     <div className={`route-details ${isOpen ? "open" : ""}`}>
       <button className="close-btn" onClick={onClose}>Close</button>
-      {travel.trains.map((train, index) => (
-        <div key={index} className="train-details-section">
-          <h2>Route Details for Train {train.trainNumber}</h2>
-          <div className="station-list">
-            {train.routeStations.map((station, stationIndex) => (
-              <div key={stationIndex} className={`station ${isSourceOrDestination(station.stationId, train) ? 'highlight' : ''}`}>
-                <div>Station: {getStationName(station.stationId)}</div>
-                <div>Arrival Time: {station.arrivalTime}</div>
-              </div>
-            ))}
+      {travel.trains.map((train, index) => {
+        const routeStationsToShow = expanded ? train.routeStations : getRelevantStations(train);
+
+        return (
+          <div key={index} className="train-details-section">
+            <h2>Route Details for Train {train.trainNumber}</h2>
+            <div className="station-list">
+              {routeStationsToShow.map((station, stationIndex) => (
+                <div key={stationIndex} className={`station ${isSourceOrDestination(station.stationId, train) ? 'highlight' : ''}`}>
+                  <div>Station: {getStationName(station.stationId)}</div>
+                  <div>Platform: {station.platform}</div>
+                  <div>Arrival Time: {station.arrivalTime}</div>
+                </div>
+              ))}
+            </div>
+            {index < travel.trains.length - 1 && <div className="change-train">Change to next train</div>}
           </div>
-          {index < travel.trains.length - 1 && <div>Change to next train</div>}
-        </div>
-      ))}
+        );
+      })}
+      <button className="expand-collapse-btn" onClick={() => setExpanded(!expanded)}>
+        {expanded ? 'Collapse' : 'Expand'}
+      </button>
     </div>
   );
 }
