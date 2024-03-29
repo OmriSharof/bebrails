@@ -402,6 +402,7 @@ function TrainSchedule({ scheduleData }) {
             key={index}
             className={`travel-item flex justify-between items-center p-4 ${index === selectedIndex ? "bg-gray-200" : "bg-white"} cursor-pointer`}
             onClick={() => handleTravelClick(travel, index)}
+            style={{ marginBottom: '4px' }}
           >
             <div className="travel-details">
               <span className="train-number bg-gray-200 text-gray-700 font-bold text-lg rounded px-2 mr-auto">🚆 {travel.trains[0].trainNumber}</span>
@@ -468,36 +469,46 @@ function RouteDetails({ isOpen, onClose, travel }) {
     const startIndex = route.findIndex(station => station.stationId === train.orignStation);
     const endIndex = route.findIndex(station => station.stationId === train.destinationStation);
     
-    // If both the source and destination are found, slice the array to get all stations in between.
-    // Otherwise, return the full route as a fallback.
     return (startIndex !== -1 && endIndex !== -1) ? route.slice(startIndex, endIndex + 1) : route;
   };
 
   return (
-    <div className={`route-details ${isOpen ? "open" : ""}`}>
-      <button className="close-btn" onClick={onClose}>Close</button>
-      {travel.trains.map((train, index) => {
-        const routeStationsToShow = expanded ? train.routeStations : getRelevantStations(train);
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="bg-gray-800 w-11/12 md:w-2/3 lg:w-1/2 xl:w-1/3 2xl:w-1/4 p-8 rounded-lg shadow-xl overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900" style={{ maxHeight: "80vh" }}>
+        <div className="flex justify-between items-start mb-4">
+          <h2 className="text-white text-lg font-bold">Route Details</h2>
+          <button 
+          className="bg-[#00df9a] text-white font-medium py-2 px-4 rounded transition duration-300 ease-in-out hover:bg-[#00b884] focus:outline-none focus:ring-2 focus:ring-[#00df9a] focus:ring-opacity-50" 
+          onClick={onClose}>
+          Close
+        </button>
 
-        return (
-          <div key={index} className="train-details-section">
-            <h2 className="text-black text-lg font-bold">Route Details for Train {train.trainNumber}</h2>
-            <div className="station-list">
-              {routeStationsToShow.map((station, stationIndex) => (
-                <div key={stationIndex} className={`station ${isSourceOrDestination(station.stationId, train) ? 'font-bold' : ''}`}>
-                  <div className="text-gray-700">Station: {getStationName(station.stationId)}</div>
-                  <div className="text-gray-700">Platform: {station.platform}</div>
-                  <div className="text-gray-700">Arrival Time: {station.arrivalTime}</div>
+        </div>
+        <div className="space-y-6">
+          {travel.trains.map((train, index) => {
+            const routeStationsToShow = expanded ? train.routeStations : getRelevantStations(train);
+
+            return (
+              <div key={index} className="train-details-section">
+                <h3 className="text-white text-lg font-semibold mb-2">Train {train.trainNumber}</h3>
+                <div className="station-list space-y-4">
+                  {routeStationsToShow.map((station, stationIndex) => (
+                    <div key={stationIndex} className={`station ${isSourceOrDestination(station.stationId, train) ? "text-white font-bold" : "text-white"} brightness-100`}>
+                      <div>Station: {getStationName(station.stationId)}</div>
+                      <div>Platform: {station.platform}</div>
+                      <div>Arrival Time: {station.arrivalTime}</div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-            {index < travel.trains.length - 1 && <div className="change-train">Change to next train</div>}
-          </div>
-        );
-      })}
-      <button className="expand-collapse-btn" onClick={() => setExpanded(!expanded)}>
-        {expanded ? 'Collapse' : 'Expand'}
-      </button>
+                {index < travel.trains.length - 1 && <div className="change-train text-gray-400 py-2">Change to next train</div>}
+              </div>
+            );
+          })}
+        </div>
+        <button className="expand-collapse-btn mt-4 py-2 px-4 bg-gray-700 text-white rounded hover:bg-gray-600" onClick={() => setExpanded(!expanded)}>
+          {expanded ? 'Collapse' : 'Expand'} All
+        </button>
+      </div>
     </div>
   );
 }

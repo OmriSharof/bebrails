@@ -42,7 +42,7 @@
 
 .station > div {
     margin: 5px 0;
-    color: #555;
+    color: #ffffff;
 }
 
 .close-btn {
@@ -128,3 +128,19 @@
   .station.highlight > div {
     font-weight: bold; /* Bold the text for highlighted stations */
   }
+
+/*  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+
+  /* Custom Scrollbar CSS */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px; /* Adjust scrollbar width */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #71717A; /* Scrollbar thumb color */
+    border-radius: 4px; /* Rounded corners of the scrollbar thumb */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background-color: #111827; /* Scrollbar track color */
+}
