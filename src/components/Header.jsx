@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-
 import "./Header.css";
 
 const Header = () => {
   const [showAboutPopup, setShowAboutPopup] = useState(false);
   const [showFaqPopup, setShowFaqPopup] = useState(false);
-
-
 
   const handleAboutClick = () => {
     setShowAboutPopup(true);
@@ -72,7 +69,7 @@ const Header = () => {
     <div className="fixed top-0 left-0 w-full h-24 z-10">
       <header className="flex justify-between items-center max-w-[1240px] mx-auto px-4 h-24 text-white">
         <div className="flex space-x-1 items-center">
-          <h1 className="text-3xl font-bold text-[#00df9a]">BebRails.</h1>
+         <a href="http://localhost:3000" className="text-3xl font-bold text-[#00df9a]">BebRails.</a>
         </div>
         <nav className="flex items-center">
           <ul className="flex">
