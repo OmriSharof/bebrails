@@ -8,3 +8,31 @@ body {
   min-height: 100vh;
   margin: 0;
 }
+
+/* Styles the scrollbar track */
+::-webkit-scrollbar {
+  width: 10px;
+  /* Width of the scrollbar */
+  transition: width 0.3s ease;
+  /* Smooth transition for hover effect */
+}
+/* Styles the scrollbar handle */
+::-webkit-scrollbar-thumb {
+  background-color: #00df9a;
+  /* Your accent color */
+  border-radius: 5px;
+  /* Rounded corners for the handle */
+  transition: background-color 0.3s ease;
+  /* Smooth background color transition on hover */
+}
+/* Styles the scrollbar handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #009977;
+  /* Darker shade of your accent color for hover effect */
+}
+/* Firefox scrollbar styles */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #00df9a #f0f0f0;
+  /* Accent color and track color */
+}
