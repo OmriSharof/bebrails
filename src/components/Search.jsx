@@ -527,7 +527,5 @@ function RouteDetails({ isOpen, onClose, travel }) {
   );
 }
 
-
-
 export default Search;
 export { stations };
