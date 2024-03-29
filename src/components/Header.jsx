@@ -136,9 +136,11 @@ const Header = () => {
                 So, whether you're planning your next railway adventure or just
                 cruising through the digital landscape, remember: BebRails is
                 your express train to a world of effortless navigation and
-                discovery. 🌟 
-                <span className="text-accent">"Stay on track, and the world will be your
-                station!" </span>🌍😄
+                discovery. 🌟
+                <span className="text-accent">
+                  "Stay on track, and the world will be your station!"{" "}
+                </span>
+                🌍😄
               </p>
             </div>
             <button

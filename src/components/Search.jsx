@@ -89,7 +89,6 @@ const stations = [
   { label: "Yokne'am-Kfar Yehoshu'a", id: 1240 },
 ];
 
-
 function Search() {
   const [src, setSrc] = useState(null);
   const [dest, setDest] = useState(null);
@@ -174,6 +173,8 @@ function Search() {
           onSelect={handleDateSelect}
           onBack={handleBack}
           onRequest={handleRequest}
+          source={src.label}
+          destination={dest.label}
         />
       )}
       {open && (
@@ -184,7 +185,14 @@ function Search() {
           <CircularProgress color="inherit" />
         </Backdrop>
       )}
-      {step === 4 && <TrainSchedule scheduleData={fetchedData} />}
+      {step === 4 && (
+        <TrainSchedule
+          scheduleData={fetchedData}
+          source={src.label}
+          destination={dest.label}
+          date={date.format("ddd, DD MMM")}
+        />
+      )}
     </div>
   );
 }
@@ -229,9 +237,11 @@ function SearchField({ title, label, onSelect, onBack, source }) {
   return (
     <div className="hero min-h-screen flex flex-col justify-center items-center text-center p-4">
       {/* Display dynamic title */}
-      <h1 className="text-3xl md:text-7xl font-bold text-white mb-6">
-        From: {source}
-      </h1>
+      {source && (
+        <h1 className="text-3xl md:text-5xl font-bold text-white mb-6">
+          From: {source}
+        </h1>
+      )}
       <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
         {title}
       </h1>
@@ -286,7 +296,7 @@ function SearchField({ title, label, onSelect, onBack, source }) {
   );
 }
 
-function ChooseDate({ onSelect, onBack, onRequest }) {
+function ChooseDate({ onSelect, onBack, onRequest, source, destination }) {
   const [value, setValue] = useState(dayjs());
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -317,6 +327,12 @@ function ChooseDate({ onSelect, onBack, onRequest }) {
   return (
     <div className="hero min-h-screen flex flex-col justify-center items-center text-center p-4">
       <div className="flex flex-col justify-center items-center space-y-4">
+        <h1 className="text-3xl md:text-5xl font-bold text-white mb-6">
+          From: {source}
+        </h1>
+        <h1 className="text-3xl md:text-5xl font-bold text-white mb-6">
+          To: {destination}
+        </h1>
         <Button
           variant="outlined"
           onClick={onBack}
@@ -403,7 +419,7 @@ function ChooseDate({ onSelect, onBack, onRequest }) {
   );
 }
 
-function TrainSchedule({ scheduleData }) {
+function TrainSchedule({ scheduleData, source, destination, date }) {
   const [selectedTravel, setSelectedTravel] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
 
@@ -422,6 +438,15 @@ function TrainSchedule({ scheduleData }) {
 
   return (
     <div className="train-schedule">
+      <h1 className="text-3xl md:text-5xl font-bold text-white mb-6">
+        From: {source}
+      </h1>
+      <h1 className="text-3xl md:text-5xl font-bold text-white mb-6">
+        To: {destination}
+      </h1>
+      <h1 className="text-3xl md:text-5xl font-bold text-white mb-6">
+        Date: {date}
+      </h1>
       <div className="train-list border border-gray-300 rounded overflow-hidden my-10 w-full max-w-md">
         {/* MAKE EMPTY TRAVELS LIST */}
         {scheduleData.result.travels.map((travel, index) => (
