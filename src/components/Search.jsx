@@ -157,6 +157,7 @@ function Search() {
             label="Destination Station"
             onSelect={handleDestinationSelect}
             onBack={handleBack}
+            source={src.label}
           />
         </div>
       )}
@@ -216,10 +217,13 @@ function GetStarted({ onClick }) {
   );
 }
 
-function SearchField({ title, label, onSelect, onBack }) {
+function SearchField({ title, label, onSelect, onBack, source }) {
   return (
     <div className="hero min-h-screen flex flex-col justify-center items-center text-center p-4">
       {/* Display dynamic title */}
+      <h1 className="text-3xl md:text-7xl font-bold text-white mb-6">
+        From: {source}
+      </h1>
       <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
         {title}
       </h1>
