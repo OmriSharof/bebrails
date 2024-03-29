@@ -396,39 +396,38 @@ function TrainSchedule({ scheduleData }) {
 
   return (
     <div className="train-schedule">
-      <div className="train-list">
+      <div className="train-list border border-gray-300 rounded overflow-hidden my-10 w-full max-w-md">
         {scheduleData.result.travels.map((travel, index) => (
           <div
             key={index}
-            className={`travel-item ${index === selectedIndex ? "selected" : ""}`}
+            className={`travel-item flex justify-between items-center p-4 ${index === selectedIndex ? "bg-gray-200" : "bg-white"} cursor-pointer`}
             onClick={() => handleTravelClick(travel, index)}
           >
             <div className="travel-details">
-              <span className="train-number">🚆 {travel.trains[0].trainNumber}</span>
-              <div className="time-and-platform">
-                <span className="departure-time">
+              <span className="train-number bg-gray-200 text-gray-700 font-bold text-lg rounded px-2 mr-auto">🚆 {travel.trains[0].trainNumber}</span>
+              <div className="time-and-platform flex flex-col items-center justify-center flex-1">
+                <span className="departure-time text-lg text-gray-700">
                   {new Date(travel.departureTime).toLocaleTimeString([], {
                     hour: '2-digit',
                     minute: '2-digit',
                   })}
                 </span>
-                <span className="travel-duration">
+                <span className="travel-duration text-sm text-gray-600">
                   {formatTravelTime(travel.departureTime, travel.arrivalTime)}
                 </span>
-                <span className="arrival-time">
+                <span className="arrival-time text-lg text-gray-700">
                   {new Date(travel.arrivalTime).toLocaleTimeString([], {
                     hour: '2-digit',
                     minute: '2-digit',
                   })}
                 </span>
               </div>
-              <div className="platform-details">
+              <div className="platform-details flex flex-col items-center justify-center">
                 <span>Platform {travel.trains[0].originPlatform}</span>
                 <span>{hasChanges(travel.trains) ? "1 Changes" : "No changes"}</span>
                 <span>Platform {travel.trains[travel.trains.length - 1].destPlatform}</span>
               </div>
             </div>
-
           </div>
         ))}
       </div>
@@ -482,13 +481,13 @@ function RouteDetails({ isOpen, onClose, travel }) {
 
         return (
           <div key={index} className="train-details-section">
-            <h2>Route Details for Train {train.trainNumber}</h2>
+            <h2 className="text-black text-lg font-bold">Route Details for Train {train.trainNumber}</h2>
             <div className="station-list">
               {routeStationsToShow.map((station, stationIndex) => (
-                <div key={stationIndex} className={`station ${isSourceOrDestination(station.stationId, train) ? 'highlight' : ''}`}>
-                  <div>Station: {getStationName(station.stationId)}</div>
-                  <div>Platform: {station.platform}</div>
-                  <div>Arrival Time: {station.arrivalTime}</div>
+                <div key={stationIndex} className={`station ${isSourceOrDestination(station.stationId, train) ? 'font-bold' : ''}`}>
+                  <div className="text-gray-700">Station: {getStationName(station.stationId)}</div>
+                  <div className="text-gray-700">Platform: {station.platform}</div>
+                  <div className="text-gray-700">Arrival Time: {station.arrivalTime}</div>
                 </div>
               ))}
             </div>
