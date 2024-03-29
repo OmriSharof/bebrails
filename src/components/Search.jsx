@@ -390,116 +390,142 @@ function ChooseDate({ onSelect, onBack, onRequest }) {
 }
 
 function TrainSchedule({ scheduleData }) {
-  const [selectedTrain, setSelectedTrain] = useState(null);
+  const [selectedTravel, setSelectedTravel] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
 
-  // This function is called when a train box is clicked.
-  // It sets the selected train and index in the state.
-  const handleTrainClick = (train, index) => {
-    setSelectedTrain(train);
+  const handleTravelClick = (travel, index) => {
+    setSelectedTravel(travel); // Set the entire travel object
     setSelectedIndex(index);
   };
 
+  const formatTravelTime = (startTime, endTime) => {
+    const duration = new Date(endTime) - new Date(startTime);
+    const minutes = Math.floor(duration / 60000);
+    return `${minutes} min`;
+  };
+
+  const hasChanges = (trains) => trains.length > 1;
+
   return (
     <div className="train-schedule">
-      <h1>Available trains</h1>
-      <div className="train-list">
+      <div className="train-list border border-gray-300 rounded overflow-hidden my-10 w-full max-w-md">
         {scheduleData.result.travels.map((travel, index) => (
           <div
             key={index}
-            className={`train ${index === selectedIndex ? "selected" : ""}`}
-            onClick={() => handleTrainClick(travel, index)}
+            className={`travel-item flex justify-between items-center p-4 ${index === selectedIndex ? "bg-gray-200" : "bg-white"} cursor-pointer`}
+            onClick={() => handleTravelClick(travel, index)}
+            style={{ marginBottom: '4px' }}
           >
-            <div className="train-details">
-              <div className="train-time">
-                <span className="departure-time">
+            <div className="travel-details">
+              <span className="train-number bg-gray-200 text-gray-700 font-bold text-lg rounded px-2 mr-auto">🚆 {travel.trains[0].trainNumber}</span>
+              <div className="time-and-platform flex flex-col items-center justify-center flex-1">
+                <span className="departure-time text-lg text-gray-700">
                   {new Date(travel.departureTime).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
+                    hour: '2-digit',
+                    minute: '2-digit',
                   })}
                 </span>
-                <span className="travel-time">
-                  {Math.floor(
-                    (new Date(travel.arrivalTime) -
-                      new Date(travel.departureTime)) /
-                      60000
-                  )}{" "}
-                  min
+                <span className="travel-duration text-sm text-gray-600">
+                  {formatTravelTime(travel.departureTime, travel.arrivalTime)}
                 </span>
-                <span className="arrival-time">
+                <span className="arrival-time text-lg text-gray-700">
                   {new Date(travel.arrivalTime).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
+                    hour: '2-digit',
+                    minute: '2-digit',
                   })}
                 </span>
               </div>
-              <div className="train-platforms">
+              <div className="platform-details flex flex-col items-center justify-center">
                 <span>Platform {travel.trains[0].originPlatform}</span>
-                <span>No changes</span>
-                <span>Platform {travel.trains[0].destPlatform}</span>
+                <span>{hasChanges(travel.trains) ? "1 Changes" : "No changes"}</span>
+                <span>Platform {travel.trains[travel.trains.length - 1].destPlatform}</span>
               </div>
             </div>
-            <button className="prices-btn">Prices</button>
           </div>
         ))}
       </div>
-      {selectedTrain && (
+      {selectedTravel && (
         <RouteDetails
-          isOpen={Boolean(selectedTrain)}
+          isOpen={Boolean(selectedTravel)}
           onClose={() => {
-            setSelectedTrain(null);
-            setSelectedIndex(null); // Reset the selected index when closing the details
+            setSelectedTravel(null);
+            setSelectedIndex(null);
           }}
-          train={selectedTrain}
+          travel={selectedTravel}
         />
       )}
     </div>
   );
 }
 
-function RouteDetails({ isOpen, onClose, train }) {
+
+function RouteDetails({ isOpen, onClose, travel }) {
+  const [expanded, setExpanded] = useState(false);
+
   if (!isOpen) {
     return null;
   }
 
-  // Function to get station name by ID
   const getStationName = (id) => {
+    // Assume stations is available in the context or via props
     const station = stations.find((s) => s.id === id);
     return station ? station.label : "Unknown Station";
   };
 
-  // Check if the current station is the origin or destination
-  const isHighlighted = (stationId) => {
-    return (
-      train.trains[0].orignStation === stationId ||
-      train.trains[0].destinationStation === stationId
-    );
+  const isSourceOrDestination = (stationId, train) => {
+    return stationId === train.orignStation || stationId === train.destinationStation;
+  };
+
+  const getRelevantStations = (train) => {
+    const route = train.routeStations;
+    const startIndex = route.findIndex(station => station.stationId === train.orignStation);
+    const endIndex = route.findIndex(station => station.stationId === train.destinationStation);
+    
+    return (startIndex !== -1 && endIndex !== -1) ? route.slice(startIndex, endIndex + 1) : route;
   };
 
   return (
-    <div className={`route-details ${isOpen ? "open" : ""}`}>
-      <button className="close-btn" onClick={onClose}>
-        Close
-      </button>
-      <h2>Route Details for Train {train.trains[0].trainNumber}</h2>
-      <div className="station-list">
-        {train.trains[0].routeStations.map((station, index) => (
-          <div
-            key={index}
-            className={`station ${
-              isHighlighted(station.stationId) ? "highlight" : ""
-            }`}
-          >
-            <div>Station: {getStationName(station.stationId)}</div>
-            <div>Arrival Time: {station.arrivalTime}</div>
-            <div>Platform: {station.platform}</div>
-            <div>Crowded: {`${station.crowded * 100}%`}</div>
-          </div>
-        ))}
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="bg-gray-800 w-11/12 md:w-2/3 lg:w-1/2 xl:w-1/3 2xl:w-1/4 p-8 rounded-lg shadow-xl overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900" style={{ maxHeight: "80vh" }}>
+        <div className="flex justify-between items-start mb-4">
+          <h2 className="text-white text-lg font-bold">Route Details</h2>
+          <button 
+          className="bg-[#00df9a] text-white font-medium py-2 px-4 rounded transition duration-300 ease-in-out hover:bg-[#00b884] focus:outline-none focus:ring-2 focus:ring-[#00df9a] focus:ring-opacity-50" 
+          onClick={onClose}>
+          Close
+        </button>
+
+        </div>
+        <div className="space-y-6">
+          {travel.trains.map((train, index) => {
+            const routeStationsToShow = expanded ? train.routeStations : getRelevantStations(train);
+
+            return (
+              <div key={index} className="train-details-section">
+                <h3 className="text-white text-lg font-semibold mb-2">Train {train.trainNumber}</h3>
+                <div className="station-list space-y-4">
+                  {routeStationsToShow.map((station, stationIndex) => (
+                    <div key={stationIndex} className={`station ${isSourceOrDestination(station.stationId, train) ? "text-white font-bold" : "text-white"} brightness-100`}>
+                      <div>Station: {getStationName(station.stationId)}</div>
+                      <div>Platform: {station.platform}</div>
+                      <div>Arrival Time: {station.arrivalTime}</div>
+                    </div>
+                  ))}
+                </div>
+                {index < travel.trains.length - 1 && <div className="change-train text-gray-400 py-2">Change to next train</div>}
+              </div>
+            );
+          })}
+        </div>
+        <button className="expand-collapse-btn mt-4 py-2 px-4 bg-gray-700 text-white rounded hover:bg-gray-600" onClick={() => setExpanded(!expanded)}>
+          {expanded ? 'Collapse' : 'Expand'} All
+        </button>
       </div>
     </div>
   );
 }
+
+
 
 export default Search;
 export { stations };

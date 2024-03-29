@@ -2,18 +2,22 @@
     font-family: 'Arial', sans-serif;
     position: fixed;
     right: -100%; /* Start off the screen */
-    top: 0;
+    top: 0px; /* Add 80px padding from the top */
     height: 100%;
-    width: 300px; /* Set a fixed width or use percentage */
+    width: 400px; /* Set a fixed width or use percentage */
     background-color: #fff;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
     overflow-x: hidden;
     transition: right 0.5s;
     z-index: 100;
+    border-radius: 4px; /* Adjust the value to change the roundness */
 }
+
+
 
 .route-details.open {
     right: 0; /* Bring onto the screen */
+    
 }
 
 .route-details h2 {
@@ -38,7 +42,7 @@
 
 .station > div {
     margin: 5px 0;
-    color: #555;
+    color: #ffffff;
 }
 
 .close-btn {
@@ -63,4 +67,80 @@
 
 .station.highlight > div {
     font-weight: bold; /* Bold the text for highlighted stations */
+}
+
+.highlight {
+    font-weight: bold;
+  }
+  
+.expand-collapse-btn {
+    display: block;
+    width: auto; /* Auto width for content sizing */
+    padding: 10px 20px;
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    text-align: center;
+    margin: 10px auto; /* Center button horizontally */
+    outline: none; /* Remove outline for focus state */
+  }
+  
+  .expand-collapse-btn:hover {
+    background-color: #005f73;
+  }
+  
+  .expand-collapse-btn {
+    display: block;
+    width: auto; /* Auto width for content sizing */
+    padding: 10px 20px;
+    background-color: #004a99;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    text-align: center;
+    margin: 10px auto; /* Center button horizontally */
+    outline: none; /* Remove outline for focus state */
+  }
+  
+  .expand-collapse-btn:hover {
+    background-color: #003366;
+  }
+  
+  /* Align the expand-collapse button at the bottom of the route details panel */
+  .route-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* This will push the button to the bottom */
+  }
+  
+  .station {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .station.highlight > div {
+    font-weight: bold; /* Bold the text for highlighted stations */
+  }
+
+/*  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+
+  /* Custom Scrollbar CSS */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px; /* Adjust scrollbar width */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #71717A; /* Scrollbar thumb color */
+    border-radius: 4px; /* Rounded corners of the scrollbar thumb */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background-color: #111827; /* Scrollbar track color */
 }
