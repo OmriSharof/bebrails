@@ -4,12 +4,14 @@ import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SearchIcon from "@mui/icons-material/Search";
+import { useTheme, useMediaQuery } from "@mui/material";
 
 import "./TrainSchedule.css";
 import "./RouteDetails.css";
@@ -271,11 +273,13 @@ function SearchField({ title, label, onSelect, onBack }) {
 }
 
 function ChooseDate({ onSelect, onBack, onRequest }) {
-  const [value, setValue] = React.useState(dayjs());
+  const [value, setValue] = useState(dayjs());
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const darkTheme = createTheme({
     palette: {
-      type: "dark",
+      mode: "dark",
       primary: {
         main: "#2196f3",
       },
@@ -285,6 +289,16 @@ function ChooseDate({ onSelect, onBack, onRequest }) {
       },
     },
   });
+
+  // Picker component based on screen size
+  const DatePickerComponent = isSmallScreen
+    ? MobileDatePicker
+    : StaticDatePicker;
+
+  // Determine actions based on screen size
+  const actionBarActions = isSmallScreen
+    ? ["cancel", "accept", "today"]
+    : ["today"];
 
   return (
     <div className="hero min-h-screen flex flex-col justify-center items-center text-center p-4">
@@ -308,35 +322,33 @@ function ChooseDate({ onSelect, onBack, onRequest }) {
 
         <ThemeProvider theme={darkTheme}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <StaticDatePicker
-              displayStaticWrapperAs="" // Static desktop mode
-              orientation="landscape" // Landscape orientation
+            <DatePickerComponent
+              orientation={isSmallScreen ? "portrait" : "landscape"}
               showToolbar={false} // Toolbar visible
               showDaysOutsideCurrentMonth={true} // Show days outside of month
+              openTo="day"
+              views={["month", "day"]}
               sx={{
-                ".MuiPickersToolbar-root": {
-                  color: "#bbdefb",
-                  borderRadius: "3px",
-                  borderWidth: "3px",
-                  borderColor: "#2196f3",
-                  border: "3px solid",
-                  backgroundColor: "#00df9a",
+                border: "2px solid #00df9a",
+                borderRadius: "5px",
+                ".MuiPickersToolbar-content": {
+                  color: "#00df9a",
                 },
-                ".MuiDateCalendar-root": {
-                  color: "#bbdefb",
-                  borderRadius: "3px",
-                  borderWidth: "3px",
-                  borderColor: "#2196f3",
-                  border: "3px solid",
-                  backgroundColor: "#00df9a",
+                ".MuiPickersCalendarHeader-label": {
+                  color: "#00df9a",
+                },
+                ".MuiPickersDay-today": {
+                  borderColor: "#00df9a",
+                },
+                ".MuiPickersMonth-root": {
+                  color: "#fffff0",
                 },
               }}
               slotProps={{
                 actionBar: {
-                  actions: ["today"],
+                  actions: actionBarActions,
                 },
               }}
-              openTo="day"
               value={value}
               onChange={(newValue) => {
                 setValue(newValue);
