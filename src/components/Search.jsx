@@ -425,7 +425,7 @@ function TrainSchedule({ scheduleData }) {
               </div>
               <div className="platform-details">
                 <span>Platform {travel.trains[0].originPlatform}</span>
-                <span>{hasChanges(travel.trains) ? "1Changes" : "No changes"}</span>
+                <span>{hasChanges(travel.trains) ? "1 Changes" : "No changes"}</span>
                 <span>Platform {travel.trains[travel.trains.length - 1].destPlatform}</span>
               </div>
             </div>
@@ -454,9 +454,12 @@ function RouteDetails({ isOpen, onClose, travel }) {
   }
 
   const getStationName = (id) => {
-    // Assume stations is available in the context or via props
     const station = stations.find((s) => s.id === id);
     return station ? station.label : "Unknown Station";
+  };
+
+  const isSourceOrDestination = (stationId, train) => {
+    return stationId === train.orignStation || stationId === train.destinationStation;
   };
 
   return (
@@ -467,10 +470,9 @@ function RouteDetails({ isOpen, onClose, travel }) {
           <h2>Route Details for Train {train.trainNumber}</h2>
           <div className="station-list">
             {train.routeStations.map((station, stationIndex) => (
-              <div key={stationIndex} className="station">
+              <div key={stationIndex} className={`station ${isSourceOrDestination(station.stationId, train) ? 'highlight' : ''}`}>
                 <div>Station: {getStationName(station.stationId)}</div>
                 <div>Arrival Time: {station.arrivalTime}</div>
-                {/* Additional station details here */}
               </div>
             ))}
           </div>
@@ -480,6 +482,7 @@ function RouteDetails({ isOpen, onClose, travel }) {
     </div>
   );
 }
+
 
 
 export default Search;

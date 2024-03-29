@@ -4,7 +4,7 @@
     right: -100%; /* Start off the screen */
     top: 0;
     height: 100%;
-    width: 300px; /* Set a fixed width or use percentage */
+    width: 400px; /* Set a fixed width or use percentage */
     background-color: #fff;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
     overflow-x: hidden;
@@ -64,3 +64,8 @@
 .station.highlight > div {
     font-weight: bold; /* Bold the text for highlighted stations */
 }
+
+.highlight {
+    font-weight: bold;
+  }
+  
