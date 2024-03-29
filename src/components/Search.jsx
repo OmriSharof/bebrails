@@ -378,15 +378,21 @@ function ChooseDate({ onSelect, onBack, onRequest }) {
 }
 
 function TrainSchedule({ scheduleData }) {
-  const [selectedTrain, setSelectedTrain] = useState(null);
+  const [selectedTravel, setSelectedTravel] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
 
-  // This function is called when a train box is clicked.
-  // It sets the selected train and index in the state.
-  const handleTrainClick = (train, index) => {
-    setSelectedTrain(train);
+  const handleTravelClick = (travel, index) => {
+    setSelectedTravel(travel); // Set the entire travel object
     setSelectedIndex(index);
   };
+
+  const formatTravelTime = (startTime, endTime) => {
+    const duration = new Date(endTime) - new Date(startTime);
+    const minutes = Math.floor(duration / 60000);
+    return `${minutes} min`;
+  };
+
+  const hasChanges = (trains) => trains.length > 1;
 
   return (
     <div className="train-schedule">
@@ -395,99 +401,86 @@ function TrainSchedule({ scheduleData }) {
         {scheduleData.result.travels.map((travel, index) => (
           <div
             key={index}
-            className={`train ${index === selectedIndex ? "selected" : ""}`}
-            onClick={() => handleTrainClick(travel, index)}
+            className={`travel-item ${index === selectedIndex ? "selected" : ""}`}
+            onClick={() => handleTravelClick(travel, index)}
           >
-            <div className="train-details">
-              <div className="train-time">
+            <div className="travel-details">
+              <span className="train-number">🚆 {travel.trains[0].trainNumber}</span>
+              <div className="time-and-platform">
                 <span className="departure-time">
                   {new Date(travel.departureTime).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
+                    hour: '2-digit',
+                    minute: '2-digit',
                   })}
                 </span>
-                <span className="travel-time">
-                  {Math.floor(
-                    (new Date(travel.arrivalTime) -
-                      new Date(travel.departureTime)) /
-                      60000
-                  )}{" "}
-                  min
+                <span className="travel-duration">
+                  {formatTravelTime(travel.departureTime, travel.arrivalTime)}
                 </span>
                 <span className="arrival-time">
                   {new Date(travel.arrivalTime).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
+                    hour: '2-digit',
+                    minute: '2-digit',
                   })}
                 </span>
               </div>
-              <div className="train-platforms">
+              <div className="platform-details">
                 <span>Platform {travel.trains[0].originPlatform}</span>
-                <span>No changes</span>
-                <span>Platform {travel.trains[0].destPlatform}</span>
+                <span>{hasChanges(travel.trains) ? "1Changes" : "No changes"}</span>
+                <span>Platform {travel.trains[travel.trains.length - 1].destPlatform}</span>
               </div>
             </div>
             <button className="prices-btn">Prices</button>
           </div>
         ))}
       </div>
-      {selectedTrain && (
+      {selectedTravel && (
         <RouteDetails
-          isOpen={Boolean(selectedTrain)}
+          isOpen={Boolean(selectedTravel)}
           onClose={() => {
-            setSelectedTrain(null);
-            setSelectedIndex(null); // Reset the selected index when closing the details
+            setSelectedTravel(null);
+            setSelectedIndex(null);
           }}
-          train={selectedTrain}
+          travel={selectedTravel}
         />
       )}
     </div>
   );
 }
 
-function RouteDetails({ isOpen, onClose, train }) {
+
+function RouteDetails({ isOpen, onClose, travel }) {
   if (!isOpen) {
     return null;
   }
 
-  // Function to get station name by ID
   const getStationName = (id) => {
+    // Assume stations is available in the context or via props
     const station = stations.find((s) => s.id === id);
     return station ? station.label : "Unknown Station";
   };
 
-  // Check if the current station is the origin or destination
-  const isHighlighted = (stationId) => {
-    return (
-      train.trains[0].orignStation === stationId ||
-      train.trains[0].destinationStation === stationId
-    );
-  };
-
   return (
     <div className={`route-details ${isOpen ? "open" : ""}`}>
-      <button className="close-btn" onClick={onClose}>
-        Close
-      </button>
-      <h2>Route Details for Train {train.trains[0].trainNumber}</h2>
-      <div className="station-list">
-        {train.trains[0].routeStations.map((station, index) => (
-          <div
-            key={index}
-            className={`station ${
-              isHighlighted(station.stationId) ? "highlight" : ""
-            }`}
-          >
-            <div>Station: {getStationName(station.stationId)}</div>
-            <div>Arrival Time: {station.arrivalTime}</div>
-            <div>Platform: {station.platform}</div>
-            <div>Crowded: {`${station.crowded * 100}%`}</div>
+      <button className="close-btn" onClick={onClose}>Close</button>
+      {travel.trains.map((train, index) => (
+        <div key={index} className="train-details-section">
+          <h2>Route Details for Train {train.trainNumber}</h2>
+          <div className="station-list">
+            {train.routeStations.map((station, stationIndex) => (
+              <div key={stationIndex} className="station">
+                <div>Station: {getStationName(station.stationId)}</div>
+                <div>Arrival Time: {station.arrivalTime}</div>
+                {/* Additional station details here */}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+          {index < travel.trains.length - 1 && <div>Change to next train</div>}
+        </div>
+      ))}
     </div>
   );
 }
+
 
 export default Search;
 export { stations };
