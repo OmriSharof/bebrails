@@ -2,7 +2,7 @@
     font-family: 'Arial', sans-serif;
     position: fixed;
     right: -100%; /* Start off the screen */
-    top: 0;
+    top: 0px; /* Add 80px padding from the top */
     height: 100%;
     width: 400px; /* Set a fixed width or use percentage */
     background-color: #fff;
@@ -10,10 +10,14 @@
     overflow-x: hidden;
     transition: right 0.5s;
     z-index: 100;
+    border-radius: 4px; /* Adjust the value to change the roundness */
 }
+
+
 
 .route-details.open {
     right: 0; /* Bring onto the screen */
+    
 }
 
 .route-details h2 {

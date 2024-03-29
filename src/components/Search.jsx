@@ -396,7 +396,6 @@ function TrainSchedule({ scheduleData }) {
 
   return (
     <div className="train-schedule">
-      <h1>Available trains</h1>
       <div className="train-list">
         {scheduleData.result.travels.map((travel, index) => (
           <div
@@ -429,7 +428,7 @@ function TrainSchedule({ scheduleData }) {
                 <span>Platform {travel.trains[travel.trains.length - 1].destPlatform}</span>
               </div>
             </div>
-            <button className="prices-btn">Prices</button>
+
           </div>
         ))}
       </div>
