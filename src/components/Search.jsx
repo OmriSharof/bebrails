@@ -7,7 +7,7 @@ import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { createMuiTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -272,52 +272,19 @@ function SearchField({ title, label, onSelect, onBack }) {
 
 function ChooseDate({ onSelect, onBack, onRequest }) {
   const [value, setValue] = React.useState(dayjs());
-  const darkTheme = createMuiTheme({
+
+  const darkTheme = createTheme({
     palette: {
-      type: 'dark',
+      type: "dark",
       primary: {
-        main: '#2196f3',
+        main: "#2196f3",
       },
       background: {
-        paper: '#1F2937',
-        default: '#ffffff',
-      },
-      '.MuiPickersToolbar-root': {
-        color: '#bbdefb',
-        borderRadius: '3px',
-        borderWidth: '3px',
-        borderColor: '#2196f3',
-        border: '3px solid',
-        backgroundColor: '#00df9a',
-      },
-      '.MuiDateCalendar-root': {
-        color: '#bbdefb',
-        borderRadius: '3px',
-        borderWidth: '3px',
-        borderColor: '#2196f3',
-        border: '3px solid',
-        backgroundColor: '#00df9a',
+        paper: "#1F2937",
+        default: "#ffffff",
       },
     },
   });
-  // Inline styles for the date picker's text field
-  const datePickerTextFieldStyle = {
-    backgroundColor: "#121212", // Dark background for the text field
-    borderRadius: "4px", // Consistent with the button border radius
-    color: "white", // Text color for the input
-    "& .MuiInputBase-input": {
-      color: "#fff", // Ensuring the text color is white for all states
-    },
-    "& .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#00df9a", // Customizing the border color
-    },
-    "&:hover .MuiOutlinedInput-notchedOutline": {
-      borderColor: "white", // Border color on hover
-    },
-    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#00df9a", // Border color when focused
-    },
-  };
 
   return (
     <div className="hero min-h-screen flex flex-col justify-center items-center text-center p-4">
@@ -341,31 +308,32 @@ function ChooseDate({ onSelect, onBack, onRequest }) {
 
         <ThemeProvider theme={darkTheme}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <StaticDatePicker displayStaticWrapperAs="" // Static desktop mode 
-            orientation="landscape" // Landscape orientation
-            showToolbar={false} // Toolbar visible
-            showDaysOutsideCurrentMonth={true} // Show days outside of month
+            <StaticDatePicker
+              displayStaticWrapperAs="" // Static desktop mode
+              orientation="landscape" // Landscape orientation
+              showToolbar={false} // Toolbar visible
+              showDaysOutsideCurrentMonth={true} // Show days outside of month
               sx={{
-                  // '.MuiPickersToolbar-root': {
-                  //   color: '#bbdefb',
-                  //   borderRadius: '3px',
-                  //   borderWidth: '3px',
-                  //   borderColor: '#2196f3',
-                  //   border: '3px solid',
-                  //   backgroundColor: '#00df9a',
-                  // },
-                  // '.MuiDateCalendar-root': {
-                  //   color: '#bbdefb',
-                  //   borderRadius: '3px',
-                  //   borderWidth: '3px',
-                  //   borderColor: '#2196f3',
-                  //   border: '3px solid',
-                  //   backgroundColor: '#00df9a',
-                  // },
+                ".MuiPickersToolbar-root": {
+                  color: "#bbdefb",
+                  borderRadius: "3px",
+                  borderWidth: "3px",
+                  borderColor: "#2196f3",
+                  border: "3px solid",
+                  backgroundColor: "#00df9a",
+                },
+                ".MuiDateCalendar-root": {
+                  color: "#bbdefb",
+                  borderRadius: "3px",
+                  borderWidth: "3px",
+                  borderColor: "#2196f3",
+                  border: "3px solid",
+                  backgroundColor: "#00df9a",
+                },
               }}
               slotProps={{
                 actionBar: {
-                  actions: ['today'],
+                  actions: ["today"],
                 },
               }}
               openTo="day"
@@ -374,14 +342,10 @@ function ChooseDate({ onSelect, onBack, onRequest }) {
                 setValue(newValue);
                 onSelect(newValue);
               }}
-              renderInput={(params) => (
-                <TextField {...params} style={datePickerTextFieldStyle} />
-              )}
+              renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
         </ThemeProvider>
-
-        
 
         <Button
           variant="outlined"
