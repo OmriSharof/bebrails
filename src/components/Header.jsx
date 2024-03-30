@@ -70,7 +70,7 @@ const Header = () => {
       <header className="flex justify-between items-center max-w-[1240px] mx-auto px-4 h-24 text-white">
         <div className="flex space-x-1 items-center">
           <a
-            href="http://localhost:3000"
+            href="https://omrisharof.github.io/bebrails/"
             className="text-3xl font-bold text-[#00df9a]"
           >
             BebRails.
