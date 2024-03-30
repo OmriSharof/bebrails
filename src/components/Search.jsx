@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SearchIcon from "@mui/icons-material/Search";
 import { useTheme, useMediaQuery } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
 import "./TrainSchedule.css";
 import "./RouteDetails.css";
@@ -131,7 +132,7 @@ function Search() {
 
   async function FindRoute() {
     try {
-      const response = await axios.get("http://44.204.86.203:5000/run-script", {
+      const response = await axios.get("https://free.bebrails.com/", {
         params: {
           src: src.label,
           dest: dest.label,
@@ -190,6 +191,8 @@ function Search() {
           source={src.label}
           destination={dest.label}
           date={date.format("ddd, DD MMM")}
+          onBack={handleBack}
+          startNewSearch={() => setStep(1)}
         />
       )}
     </div>
@@ -236,6 +239,12 @@ function GetStarted({ onClick }) {
 }
 
 function SearchField({ title, label, onSelect, onBack, source }) {
+  const CssTextField = styled(TextField)({
+    "& label.Mui-focused": {
+      color: "#00df9a",
+    },
+  });
+
   return (
     <div className="min-h-[80vh] flex flex-col justify-center items-center text-center p-4 space-y-6">
       {/* Main Title */}
@@ -300,7 +309,7 @@ function SearchField({ title, label, onSelect, onBack, source }) {
             </Box>
           )}
           renderInput={(params) => (
-            <TextField
+            <CssTextField
               {...params}
               label={label}
               inputProps={{
@@ -481,7 +490,14 @@ function ChooseDate({ onSelect, onBack, onRequest, source, destination }) {
   );
 }
 
-function TrainSchedule({ scheduleData, source, destination, date }) {
+function TrainSchedule({
+  scheduleData,
+  source,
+  destination,
+  date,
+  onBack,
+  startNewSearch,
+}) {
   const [selectedTravel, setSelectedTravel] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
 
@@ -501,16 +517,78 @@ function TrainSchedule({ scheduleData, source, destination, date }) {
   return (
     <div className="train-schedule">
       {/* Display From, To, and Date at the top */}
-      <div className="text-center mb-6">
-        <h1 className="text-3xl md:text-5xl font-bold text-white">
-          From: {source}
-        </h1>
-        <h1 className="text-3xl md:text-5xl font-bold text-white">
-          To: {destination}
-        </h1>
-        <h1 className="text-3xl md:text-5xl font-bold text-white">
-          Date: {date}
-        </h1>
+      <div class="text-center mb-8">
+        <div class="flex items-center justify-center gap-4 text-xl md:text-3xl lg:text-4xl font-bold text-white">
+          <span>{source}</span>
+          <svg
+            class="h-8 w-8 lg:h-10 lg:w-10 text-accent"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span>{destination}</span>
+        </div>
+        <div class="mt-4 font-bold text-2xl md:text-3xl lg:text-4xl text-white">
+          {date}
+        </div>
+      </div>
+
+      {/* Action buttons for Back and New Search */}
+      <div className="action-buttons text-center my-4">
+        <Button
+          variant="outlined"
+          onClick={onBack}
+          startIcon={<ArrowBackIcon />}
+          sx={{
+            borderColor: "#00df9a",
+            color: "#00df9a",
+            fontWeight: "bold",
+            textTransform: "none",
+            padding: "10px 20px",
+            borderRadius: "4px",
+            marginRight: "20px", // Creates space between the two buttons
+            "&:hover": {
+              backgroundColor: "rgba(0, 223, 154, 0.1)",
+              color: "#00df9a",
+              borderColor: "#00df9a",
+            },
+          }}
+        >
+          Back
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={startNewSearch}
+          sx={{
+            borderColor: "#00df9a",
+            color: "#00df9a",
+            fontWeight: "bold",
+            textTransform: "none",
+            padding: "10px 20px",
+            borderRadius: "4px",
+            transition: "all 0.3s ease",
+            "&:hover": {
+              backgroundColor: "rgba(0, 223, 154, 0.1)",
+              color: "#00df9a",
+              boxShadow: "0 4px 20px rgba(0, 223, 154, 0.25)", // more pronounced glow effect on hover
+              transform: "scale(1.05)", // button grows larger on hover
+              borderColor: "#00df9a",
+            },
+            "&:active": {
+              backgroundColor: "rgba(0, 223, 154, 0.2)", // slightly darker on click
+              boxShadow: "0 1px 5px rgba(0, 223, 154, 0.3)", // more pronounced shadow on click
+              transform: "translateY(1px)", // button appears pressed on click
+            },
+          }}
+        >
+          New Search
+        </Button>
       </div>
 
       {/* Train list container */}
@@ -619,50 +697,56 @@ function RouteDetails({ isOpen, onClose, travel }) {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div
-        className="bg-gray-800 w-11/12 md:w-2/3 lg:w-1/2 xl:w-1/3 2xl:w-1/4 p-8 rounded-lg shadow-xl overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900"
-        style={{ maxHeight: "80vh" }}
-      >
-        <div className="flex justify-between items-start mb-4">
-          <h2 className="text-white text-lg font-bold">Route Details</h2>
-          <button
-            className="bg-[#00df9a] text-white font-medium py-2 px-4 rounded transition duration-300 ease-in-out hover:bg-[#00b884] focus:outline-none focus:ring-2 focus:ring-[#00df9a] focus:ring-opacity-50"
-            onClick={onClose}
-          >
+    <div className="modal-overlay">
+      <div className="modal-container">
+        <div className="modal-header">
+          <h2 className="modal-title">Route Details</h2>
+          <button className="modal-close-btn" onClick={onClose}>
             Close
           </button>
         </div>
 
-        <div className="space-y-6">
+        <div className="modal-trains-list">
           {travel.trains.map((train, index) => {
             const routeStationsToShow = expanded
               ? train.routeStations
               : getRelevantStations(train);
 
             return (
-              <div key={index} className="train-details-section">
-                <h3 className="text-white text-lg font-semibold mb-2">
-                  Train {train.trainNumber}
-                </h3>
-                <div className="station-list space-y-4">
+              <div key={index} className="modal-train-details">
+                <span className="modal-train-title">
+                  🚆 {train.trainNumber}
+                </span>
+                <div className="modal-stations-list">
+                  <div className="modal-stations-titles">
+                    <div className="modal-station-name-title">Station Name</div>
+                    <div className="modal-platform-title">Platform</div>
+                    <div className="modal-arrival-title">Arrival Time</div>
+                  </div>
                   {routeStationsToShow.map((station, stationIndex) => (
                     <div
                       key={stationIndex}
-                      className={`station ${
+                      className={`modal-station ${
                         isSourceOrDestination(station.stationId, train)
-                          ? "text-white font-bold"
-                          : "text-white"
-                      } brightness-100`}
+                          ? "modal-highlighted-station"
+                          : ""
+                      }`}
                     >
-                      <div>Station: {getStationName(station.stationId)}</div>
-                      <div>Platform: {station.platform}</div>
-                      <div>Arrival Time: {station.arrivalTime}</div>
+                      <div className="modal-station-name">
+                        {getStationName(station.stationId)}
+                      </div>
+                      <div className="modal-platform-number">
+                        {station.platform}
+                      </div>
+                      <div className="modal-arrival-time">
+                        {station.arrivalTime}
+                      </div>
                     </div>
                   ))}
                 </div>
+
                 {index < travel.trains.length - 1 && (
-                  <div className="change-train text-gray-400 py-2">
+                  <div className="modal-train-change-notice">
                     Change to next train
                   </div>
                 )}
@@ -672,7 +756,7 @@ function RouteDetails({ isOpen, onClose, travel }) {
         </div>
 
         <button
-          className="toggle-expand-button"
+          className="modal-toggle-expand-btn"
           onClick={() => setExpanded(!expanded)}
         >
           {expanded ? "Collapse" : "Expand"} All

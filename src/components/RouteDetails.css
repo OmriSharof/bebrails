@@ -1,110 +1,176 @@
-.route-details {
+.modal-overlay {
   font-family: 'Arial', sans-serif;
   position: fixed;
-  right: -100%;
-  /* Start off the screen */
-  top: 0px;
-  /* Add 80px padding from the top */
-  height: 100%;
-  width: 400px;
-  /* Set a fixed width or use percentage */
-  background-color: #fff;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
-  overflow-x: hidden;
-  transition: right 0.5s;
-  z-index: 100;
-  border-radius: 4px;
-  /* Adjust the value to change the roundness */
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 50;
 }
 
-
-
-.route-details.open {
-  right: 0;
-  /* Bring onto the screen */
-
-}
-
-.route-details h2 {
-  color: #333;
-  padding: 20px;
-  margin-top: 0;
-  border-bottom: 1px solid #ddd;
-}
-
-.station-list {
+.modal-container {
+  background-color: #111827;
+  width: 90%;
+  max-width: 600px;
+  padding: 32px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
   overflow-y: auto;
-  /* Allow scrolling for overflow content */
+  max-height: 80vh;
 }
 
-.station {
-  padding: 15px 20px;
-  border-bottom: 1px solid #eee;
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
 }
 
-.station:last-child {
-  border-bottom: none;
+.modal-title {
+  color: #EAEAEA;
+  font-size: 20px;
+  font-weight: bold;
 }
 
-.station>div {
-  margin: 5px 0;
-  color: #ffffff;
-}
-
-.close-btn {
-  display: block;
-  width: auto;
-  /* Auto width for content sizing */
+.modal-close-btn {
+  background-color: #00df9a;
+  color: #20293f;
+  font-size: 16px;
   padding: 10px 20px;
-  background-color: #004a99;
-  color: white;
-  border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 16px;
-  text-align: center;
-  margin: 10px;
-  outline: none;
-  /* Remove outline for focus state */
+  transition: background-color 0.3s, transform 0.2s ease;
 }
 
-.close-btn:hover {
-  background-color: #003366;
+.modal-close-btn:hover {
+  background-color: #00b884;
+  transform: scale(1.05);
 }
 
-.station.highlight>div {
+.modal-trains-list {
+  overflow-y: auto;
+}
+
+.modal-train-details {
+  background-color: #192033;
+  margin: 10px 0;
+  padding: 20px;
+  border-radius: 10px;
+  color: #EAEAEA;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  /* Hover effect for card */
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.modal-train-title {
   font-weight: bold;
-  /* Bold the text for highlighted stations */
-}
-
-.highlight {
-  font-weight: bold;
-}
-
-/* Align the expand-collapse button at the bottom of the route details panel */
-.route-details {
+  color: #00df9a;
+  background-color: #263244;
+  padding: 6px 12px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  /* This will push the button to the bottom */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
 }
 
-.station {
-  padding: 15px 20px;
-  border-bottom: 1px solid #eee;
-}
-
-.station.highlight>div {
+.modal-train-change-notice {
   font-weight: bold;
-  /* Bold the text for highlighted stations */
+  color: #F9F6EE;
+  /* Bright white color for contrast and emphasis */
+  background-color: #20293f;
+  /* A slightly different shade for differentiation */
+  padding: 6px 12px;
+  margin: 20px 0;
+  /* Added margin for spacing around the notice */
+  border-radius: 8px;
+  border: 2px dashed #00df9a;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 20px 50px -10px, rgba(0, 0, 0, 0.3) 0px 15px 30px -15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
 }
 
-.toggle-expand-button {
+.modal-stations-list {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.modal-stations-titles {
+  display: table-row;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #EAEAEA;
+  background-color: #263244;
+  padding: 10px 0;
+  border-bottom: 2px solid #00df9a;
+}
+
+.modal-station-name-title,
+.modal-platform-title,
+.modal-arrival-title {
+  display: table-cell;
+  padding: 8px;
+  text-align: center;
+}
+
+.modal-station-name-title {
+  text-align: left;
+}
+
+.modal-arrival-title {
+  text-align: right;
+}
+
+.modal-station {
+  display: table-row;
+  background-color: #192033;
+  color: #EAEAEA;
+  transition: background-color 0.2s ease;
+}
+
+.modal-station:hover {
+  background-color: #111827;
+}
+
+.modal-highlighted-station {
+  font-weight: bold;
+  color: #00df9a;
+}
+
+.modal-station-name,
+.modal-platform-number,
+.modal-arrival-time {
+  display: table-cell;
+  padding: 8px;
+  text-align: center;
+}
+
+.modal-station-name {
+  text-align: left;
+}
+
+.modal-arrival-time {
+  text-align: right;
+}
+
+.modal-toggle-expand-btn {
   display: block;
   width: auto;
   padding: 10px 20px;
-  background-color: #008CBA;
+  background-color: #20293f;
   color: white;
   border-radius: 4px;
   cursor: pointer;
@@ -114,6 +180,7 @@
   margin: 20px auto;
 }
 
-.toggle-expand-button:hover {
-  background-color: #005f73;
+.modal-toggle-expand-btn:hover {
+  background-color: #192033;
+  transform: scale(1.05);
 }
