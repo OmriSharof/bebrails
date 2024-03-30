@@ -95,7 +95,7 @@ function Search() {
   const [src, setSrc] = useState(null);
   const [dest, setDest] = useState(null);
   const [step, setStep] = useState(0);
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(dayjs());
   const [open, setOpen] = useState(false);
 
   const [fetchedData, setFetchedData] = useState(null);
@@ -175,6 +175,8 @@ function Search() {
           onRequest={handleRequest}
           source={src.label}
           destination={dest.label}
+          value={date}
+          setValue={setDate}
         />
       )}
       {open && (
@@ -346,8 +348,7 @@ function SearchField({ title, label, onSelect, onBack, source }) {
   );
 }
 
-function ChooseDate({ onSelect, onBack, onRequest, source, destination }) {
-  const [value, setValue] = useState(dayjs());
+function ChooseDate({ onSelect, onBack, onRequest, source, destination, value, setValue}) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -500,7 +501,6 @@ function TrainSchedule({
 }) {
   const [selectedTravel, setSelectedTravel] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
-
   const handleTravelClick = (travel, index) => {
     setSelectedTravel(travel); // Set the entire travel object
     setSelectedIndex(index);
