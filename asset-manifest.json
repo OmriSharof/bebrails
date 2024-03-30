@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/bebrails/static/css/main.95a3f232.css",
-    "main.js": "/bebrails/static/js/main.fa21536a.js",
+    "main.js": "/bebrails/static/js/main.cdb260c0.js",
     "static/js/453.ab734a93.chunk.js": "/bebrails/static/js/453.ab734a93.chunk.js",
     "index.html": "/bebrails/index.html",
     "main.95a3f232.css.map": "/bebrails/static/css/main.95a3f232.css.map",
-    "main.fa21536a.js.map": "/bebrails/static/js/main.fa21536a.js.map",
+    "main.cdb260c0.js.map": "/bebrails/static/js/main.cdb260c0.js.map",
     "453.ab734a93.chunk.js.map": "/bebrails/static/js/453.ab734a93.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.95a3f232.css",
-    "static/js/main.fa21536a.js"
+    "static/js/main.cdb260c0.js"
   ]
 }
