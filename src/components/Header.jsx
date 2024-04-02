@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import "./Header.css";
 
+import { useTheme } from "../ThemeContext";
+
 const Header = () => {
+  const { theme, toggleTheme } = useTheme();
+
   const [showAboutPopup, setShowAboutPopup] = useState(false);
   const [showFaqPopup, setShowFaqPopup] = useState(false);
 
@@ -67,11 +71,24 @@ const Header = () => {
 
   return (
     <div className="top-0 left-0 w-full h-24 z-50">
-      <header className="flex justify-between items-center max-w-[1240px] mx-auto px-4 h-24 text-white">
+      <header
+        className={`flex justify-between items-center max-w-[1240px] mx-auto px-4 h-24 ${
+          theme === "dark" ? "text-[#f1f1f1]" : "text-[#111827]"
+        }`}
+      >
         <div className="flex space-x-1 items-center">
           <a
             href="https://omrisharof.github.io/bebrails/"
-            className="text-3xl font-bold text-[#00df9a]"
+            className={`text-3xl font-bold ${
+              theme === "dark" ? "text-[#00df9a]" : "text-[#00df9a]"
+            }`}
+            style={
+              theme === "light"
+                ? {
+                    textShadow: `2px 2px #111827`,
+                  }
+                : {}
+            }
           >
             BebRails.
           </a>
@@ -79,16 +96,29 @@ const Header = () => {
         <nav className="flex items-center">
           <ul className="flex">
             <li
-              className="p-4 font-bold cursor-pointer hover:text-[#00df9a] transition duration-300 ease-in-out"
+              className={`p-4 font-bold cursor-pointer hover:text-[#00df9a] transition duration-300 ease-in-out hover-animate`}
               onClick={handleAboutClick}
             >
               About
             </li>
             <li
-              className="p-4 font-bold cursor-pointer hover:text-[#00df9a] transition duration-300 ease-in-out"
+              className={`p-4 font-bold cursor-pointer hover:text-[#00df9a] transition duration-300 ease-in-out hover-animate`}
+
               onClick={handleFaqClick}
             >
               FAQ
+            </li>
+
+            <li className="flex items-center justify-center">
+              <button
+                onClick={toggleTheme}
+                className={`bg-transparent rounded-full flex items-center justify-center w-10 h-10 hover:border hover:border-[#00df9a] ${
+                  theme === "dark" ? "text-white" : "text-[#111827]"
+                }`}
+                aria-label="Toggle Theme"
+              >
+                {theme === "dark" ? "🌞" : "🌜"}
+              </button>
             </li>
           </ul>
         </nav>

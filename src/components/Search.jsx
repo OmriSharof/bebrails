@@ -20,6 +20,8 @@ import { styled } from "@mui/material/styles";
 import "./TrainSchedule.css";
 import "./RouteDetails.css";
 
+import { useAppTheme } from "../ThemeContext";
+
 const stations = [
   { label: "Afula R.Eitan", id: 1260 },
   { label: "Ahihud", id: 1820 },
@@ -202,12 +204,21 @@ function Search() {
 }
 
 function GetStarted({ onClick }) {
+  const { theme } = useAppTheme();
   return (
     <div className="min-h-[80vh] flex flex-col justify-center items-center text-center">
-      <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+      <h1
+        className={`text-5xl md:text-7xl font-bold mb-6 ${
+          theme === "light" ? "text-gray-800" : "text-[#f1f1f1]"
+        }`}
+      >
         Ready for an Adventure?
       </h1>
-      <p className="text-xl md:text-2xl text-gray-300 mb-8">
+      <p
+        className={`text-xl md:text-2xl mb-8 ${
+          theme === "light" ? "text-gray-600" : "text-gray-300"
+        }`}
+      >
         With BebRails, find the perfect route and enjoy the journey.
       </p>
       <Button
@@ -241,6 +252,8 @@ function GetStarted({ onClick }) {
 }
 
 function SearchField({ title, label, onSelect, onBack, source }) {
+  const { theme } = useAppTheme();
+
   const CssTextField = styled(TextField)({
     "& label.Mui-focused": {
       color: "#00df9a",
@@ -250,20 +263,28 @@ function SearchField({ title, label, onSelect, onBack, source }) {
   return (
     <div className="min-h-[80vh] flex flex-col justify-center items-center text-center p-4 space-y-6">
       {/* Main Title */}
-      <h1 className="text-5xl md:text-7xl font-bold text-white">
+      <h1
+        className={`text-5xl md:text-7xl font-bold ${
+          theme === "light" ? "text-gray-800" : "text-[#f1f1f1]"
+        }`}
+      >
         {title}{" "}
         {/* Assuming 'title' variable holds something like "Plan Your Journey" */}
       </h1>
 
       {/* Source Location */}
       {source && (
-        <h2 className="text-3xl md:text-5xl font-bold text-white">
+        <h2
+          className={`text-3xl md:text-5xl font-bold ${
+            theme === "light" ? "text-gray-800" : "text-[#f1f1f1]"
+          }`}
+        >
           From: {source}
         </h2>
       )}
 
       {/* Destination Autocomplete Field */}
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md rounded-[4px] overflow-hidden">
         <Autocomplete
           sx={{
             "& .MuiOutlinedInput-root": {
@@ -323,34 +344,48 @@ function SearchField({ title, label, onSelect, onBack, source }) {
       </div>
 
       {/* Back Button */}
-      <Button
-        variant="outlined"
-        onClick={onBack}
-        startIcon={<ArrowBackIcon />}
-        sx={{
-          borderColor: "#00df9a",
-          color: "#00df9a",
-          fontWeight: "bold",
-          textTransform: "none",
-          padding: "10px 20px",
-          borderRadius: "4px",
-          transition: "background-color 0.3s ease, color 0.3s ease",
-          "&:hover": {
-            backgroundColor: "rgba(0, 223, 154, 0.1)",
-            color: "#00df9a",
-            borderColor: "#00df9a",
-          },
-        }}
+      <div
+        className={`${
+          theme === "light" ? "shadow-xl bg-gray-800 p-1" : ""
+        } rounded-md `}
       >
-        Back
-      </Button>
+        <Button
+          variant="outlined"
+          onClick={onBack}
+          startIcon={<ArrowBackIcon />}
+          sx={{
+            borderColor: "#00df9a",
+            color: "#00df9a",
+            fontWeight: "bold",
+            textTransform: "none",
+            padding: "10px 20px",
+            borderRadius: "4px",
+            transition: "background-color 0.3s ease, color 0.3s ease",
+            "&:hover": {
+              backgroundColor: "rgba(0, 223, 154, 0.1)",
+              color: "#00df9a",
+              borderColor: "#00df9a",
+            },
+          }}
+        >
+          Back
+        </Button>
+      </div>
     </div>
   );
 }
 
-function ChooseDate({ onSelect, onBack, onRequest, source, destination, value, setValue}) {
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+function ChooseDate({
+  onSelect,
+  onBack,
+  onRequest,
+  source,
+  destination,
+  value,
+  setValue,
+}) {
+  const themeDark = useTheme();
+  const isSmallScreen = useMediaQuery(themeDark.breakpoints.down("sm"));
 
   const darkTheme = createTheme({
     palette: {
@@ -371,25 +406,40 @@ function ChooseDate({ onSelect, onBack, onRequest, source, destination, value, s
     : StaticDatePicker;
 
   // Determine actions based on screen size
-  const actionBarActions = isSmallScreen
-    ? ["cancel", "accept"]
-    : [];
+  const actionBarActions = isSmallScreen ? ["cancel", "accept"] : [];
+
+  const { theme } = useAppTheme();
 
   return (
     <div className="min-h-[80vh] flex flex-col justify-center items-center text-center p-4 space-y-6">
       {/* Conditionally render the source and destination if they exist */}
       {/* Main Title */}
-      <h1 className="text-5xl md:text-7xl font-bold text-white">
+      <h1
+        className={`text-5xl md:text-7xl font-bold ${
+          theme === "light" ? "text-gray-800" : "text-[#f1f1f1]"
+        }`}
+      >
         Which date?
-        {/* Assuming 'title' variable holds something like "Plan Your Journey" */}
       </h1>
+
+      {/* Source Location */}
       {source && (
-        <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+        <h2
+          className={`text-3xl md:text-5xl font-bold ${
+            theme === "light" ? "text-gray-800" : "text-[#f1f1f1]"
+          } mb-6`}
+        >
           From: {source}
         </h2>
       )}
+
+      {/* Destination Location */}
       {destination && (
-        <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+        <h2
+          className={`text-3xl md:text-5xl font-bold ${
+            theme === "light" ? "text-gray-800" : "text-[#f1f1f1]"
+          } mb-6`}
+        >
           To: {destination}
         </h2>
       )}
@@ -435,7 +485,11 @@ function ChooseDate({ onSelect, onBack, onRequest, source, destination, value, s
       </ThemeProvider>
 
       {/* Action buttons for Back and Search Trains */}
-      <div className="flex flex-col sm:flex-row sm:justify-center sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+      <div
+        className={`${
+          theme === "light" ? "shadow-xl bg-gray-800 p-1" : ""
+        } rounded-md flex flex-col sm:flex-row sm:justify-center sm:items-center space-y-4 sm:space-y-0 sm:space-x-4`}
+      >
         <Button
           variant="outlined"
           onClick={onBack}
@@ -514,25 +568,42 @@ function TrainSchedule({
 
   const hasChanges = (trains) => trains.length > 1;
 
+  const { theme } = useAppTheme();
+
   return (
     <div className="train-schedule">
       {/* Display From, To, and Date at the top */}
-      <div className="text-center mb-8">
-  <div className="flex items-center justify-center gap-4 text-xl md:text-3xl lg:text-4xl font-bold text-white">
-    <span>{source}</span>
-    <svg className="h-8 w-8 lg:h-10 lg:w-10 text-accent" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-      <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-    </svg>
-    <span>{destination}</span>
-  </div>
-  <div className="mt-4 font-bold text-2xl md:text-3xl lg:text-4xl text-white">
-    {date}
-  </div>
-</div>
 
+      <div className={`text-center mb-8 ${
+          theme === "light" ? "text-gray-800" : "text-[#f1f1f1]"
+        }`}>
+        <div className="flex items-center justify-center gap-4 text-xl md:text-3xl lg:text-4xl font-bold">
+          <span>{source}</span>
+          <svg
+            className="h-8 w-8 lg:h-10 lg:w-10 text-accent"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <span>{destination}</span>
+        </div>
+        <div className="mt-4 font-bold text-2xl md:text-3xl lg:text-4xl">
+          {date}
+        </div>
+      </div>
 
       {/* Action buttons for Back and New Search */}
-      <div className="action-buttons text-center my-4">
+      <div
+        className={`${
+          theme === "light" ? "shadow-xl bg-gray-800 p-1" : ""
+        } rounded-md action-buttons text-center my-4`}
+      >
         <Button
           variant="outlined"
           onClick={onBack}
@@ -554,6 +625,7 @@ function TrainSchedule({
         >
           Back
         </Button>
+
         <Button
           variant="outlined"
           onClick={startNewSearch}
