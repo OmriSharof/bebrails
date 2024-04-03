@@ -445,44 +445,48 @@ function ChooseDate({
       )}
 
       {/* Display the DatePickerComponent */}
-      <ThemeProvider theme={darkTheme}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePickerComponent
-            orientation={isSmallScreen ? "portrait" : "landscape"}
-            showToolbar={false} // Toolbar visible
-            showDaysOutsideCurrentMonth={true} // Show days outside of month
-            openTo="day"
-            views={["month", "day"]}
-            sx={{
-              border: "2px solid #00df9a",
-              borderRadius: "5px",
-              ".MuiPickersToolbar-content": {
-                color: "#00df9a",
-              },
-              ".MuiPickersCalendarHeader-label": {
-                color: "#00df9a",
-              },
-              ".MuiPickersDay-today": {
-                borderColor: "#00df9a",
-              },
-              ".MuiPickersMonth-root": {
-                color: "#fffff0",
-              },
-            }}
-            slotProps={{
-              actionBar: {
-                actions: actionBarActions,
-              },
-            }}
-            value={value}
-            onChange={(newValue) => {
-              setValue(newValue);
-              onSelect(newValue);
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
-      </ThemeProvider>
+      <div className={`${
+          theme === "light" ? "shadow-xl bg-gray-800" : ""
+        } rounded-md`}>
+        <ThemeProvider theme={darkTheme}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePickerComponent
+              orientation={isSmallScreen ? "portrait" : "landscape"}
+              showToolbar={false} // Toolbar visible
+              showDaysOutsideCurrentMonth={true} // Show days outside of month
+              openTo="day"
+              views={["month", "day"]}
+              sx={{
+                border: "2px solid #00df9a",
+                borderRadius: "5px",
+                ".MuiPickersToolbar-content": {
+                  color: "#00df9a",
+                },
+                ".MuiPickersCalendarHeader-label": {
+                  color: "#00df9a",
+                },
+                ".MuiPickersDay-today": {
+                  borderColor: "#00df9a",
+                },
+                ".MuiPickersMonth-root": {
+                  color: "#fffff0",
+                },
+              }}
+              slotProps={{
+                actionBar: {
+                  actions: actionBarActions,
+                },
+              }}
+              value={value}
+              onChange={(newValue) => {
+                setValue(newValue);
+                onSelect(newValue);
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+        </ThemeProvider>
+      </div>
 
       {/* Action buttons for Back and Search Trains */}
       <div

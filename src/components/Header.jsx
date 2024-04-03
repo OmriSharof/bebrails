@@ -112,9 +112,7 @@ const Header = () => {
             <li className="flex items-center justify-center">
               <button
                 onClick={toggleTheme}
-                className={`bg-transparent rounded-full flex items-center justify-center w-10 h-10 hover:border hover:border-[#00df9a] ${
-                  theme === "dark" ? "text-white" : "text-[#111827]"
-                }`}
+                className="bg-transparent rounded-full flex items-center justify-center w-10 h-10 hover:border hover:border-[#00df9a]"
                 aria-label="Toggle Theme"
               >
                 {theme === "dark" ? "🌞" : "🌜"}
