@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+# BebRails 🚉
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Simplifying Train Travel in Israel
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Project Goal 🎯
 
-### `npm start`
+BebRails is an innovative online platform designed to improve the way people plan their trips using Israel's rail system. Built with the modern traveler in mind, BebRails simplifies trip planning by providing an intuitive, efficient process that respects user privacy and is compatible with all devices.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Technical Information 🛠️
 
-### `npm test`
+- **Frontend:** ReactJS, Tailwind CSS
+- **UI Components:** Material UI
+- **Date Management:** DayJS
+- **HTTP Requests:** Axios
+- **Deployment:** gh-pages
+- **API Integration:** Data retrieval from Israel Railways (https://www.rail.co.il) using JSON format for easy integration
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Screenshots and Explanations 📸
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Screenshot 1: Home Screen 🏠
+The home screen is designed to minimize distractions and focus users on their primary goal: planning a train journey. Prominent buttons for "About," "FAQ," and "Plan My Journey" allow users to quickly access necessary information or start planning their trip with a single click.
+![Home Screen](https://github.com/OmriSharof/bebrails/assets/93444911/aae79382-66f8-4d06-9dfb-b742dcc399b3)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Screenshot 2: Choosing Start and Destination Points 📍
+Users start by selecting their origin and destination from a comprehensive list of stations, providing a simple way to specify their travel endpoints.
+![Choosing Points - Start](https://github.com/OmriSharof/bebrails/assets/93444911/fa0f6a34-9d24-45ad-83d3-a0ba8d51edca)
+![Choosing Points - Destination](https://github.com/OmriSharof/bebrails/assets/93444911/998eb32e-bd30-4371-a5fe-19921dedf6be)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Screenshot 3: Date Selection 📅
+Users can choose their travel date using an easy-to-use interface, allowing for planning both immediate and future trips.
+![Date Selection](https://github.com/OmriSharof/bebrails/assets/93444911/9f25635a-cde2-4b5e-bf75-a87736cb4977)
 
-### `npm run eject`
+### Screenshot 4: Train Selection 🚆
+Based on the input criteria, BebRails displays a list of available trains. Users can choose the most suitable train according to their schedule and preferences, with detailed information on departure times, journey duration, and arrival times.
+![Train Selection](https://github.com/OmriSharof/bebrails/assets/93444911/c30ac78e-ba26-4a7d-85b2-bdbe538edb75)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Screenshot 5: Journey Summary 🗺️
+The final screen provides a summary of the selected journey, including a full travel route with all intermediate stations and times, giving users a clear overview of their travel plans.
+#### Scenario 1: No Train Change Needed
+![Journey Summary - No Train Change Needed](https://github.com/OmriSharof/bebrails/assets/93444911/eeb5e0d0-828a-40a6-9e95-906c99bab30d)
+#### Scenario 2: Train Change Needed
+![Journey Summary - Train Change Needed](https://github.com/OmriSharof/bebrails/assets/93444911/d37143ad-20ca-4d86-ade3-877d3fdf87af)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Screenshot 6: About and FAQ Screens ℹ️
+Screens providing useful information about the platform and answers to frequently asked questions.
+![About](https://github.com/OmriSharof/bebrails/assets/93444911/5f67efc1-8c16-4c69-99b9-74a572df7dba)
+![FAQ](https://github.com/OmriSharof/bebrails/assets/93444911/189b0993-9a59-4531-ba00-6616c64cd1a1)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Screenshot 7: Dark Mode / Light Mode 🌗
+Users can switch between dark and light modes, enhancing user experience based on their preference.
+![Button to Change](https://github.com/OmriSharof/bebrails/assets/93444911/2e4e649f-0abc-47f1-a1fb-849f01027e39)
+![Light Mode](https://github.com/OmriSharof/bebrails/assets/93444911/1e16b3da-93f9-4a18-bb72-975575659829)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## Project Links 🔗
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- [GitHub Repository](https://github.com/OmriSharof/bebrails)
+- [Live Site](https://omrisharof.github.io/bebrails/)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## Contributors 👥
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Omri Sharof
+- Alexander Pitkin
+- Ilya Vorotintsev
+- Boris Shustin
